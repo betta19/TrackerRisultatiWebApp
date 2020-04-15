@@ -11,9 +11,11 @@ public class Comp {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	private String nome;
+	
 	public Comp() {
 	
 	}
+	
 	public long getId() {
 		return id;
 	}
