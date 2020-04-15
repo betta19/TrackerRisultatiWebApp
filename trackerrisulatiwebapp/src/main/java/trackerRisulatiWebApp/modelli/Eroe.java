@@ -1,15 +1,19 @@
 package trackerRisulatiWebApp.modelli;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 @Entity
 public class Eroe {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 private long id;
+	@Lob
+	 @Column(columnDefinition="BLOB NOT NULL")
 	private String immagine;
 	private String nome;
 	

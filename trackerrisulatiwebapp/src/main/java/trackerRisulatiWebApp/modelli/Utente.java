@@ -13,8 +13,8 @@ import javax.persistence.OneToMany;
 @Entity
 public class Utente {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-private long id;	
+	@GeneratedValue(strategy = GenerationType.AUTO)
+private long id;	 
 private String mail;
 private String password;
 private String tipo;

@@ -17,8 +17,8 @@ public class Listener implements ServletContextListener{
 
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
-		EntityManagerFactory emf = (EntityManagerFactory) sce.getServletContext().getAttribute("emf");
-	    emf.close();
+		//EntityManagerFactory emf = (EntityManagerFactory) sce.getServletContext().getAttribute("emf");
+	  //  emf.close();
 		
 	}
 
