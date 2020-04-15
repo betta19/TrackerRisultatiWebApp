@@ -13,7 +13,7 @@ public class Eroe {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 private long id;
 	@Lob
-	 @Column(columnDefinition="BLOB NOT NULL")
+	 @Column(columnDefinition="LONGBLOB NOT NULL")
 	private String immagine;
 	private String nome;
 	
