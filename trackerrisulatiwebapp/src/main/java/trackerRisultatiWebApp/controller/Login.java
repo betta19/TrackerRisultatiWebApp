@@ -28,11 +28,10 @@ public class Login extends HttpServlet{
 		HttpSession session = req.getSession();
 		Service s = new Service(emf);
 		
-			
 		Utente ut = s.getUtente(mail);
 
-		 if (!s.controlloUtente(ut)) {
-				req.setAttribute("messaggio", "mail o password errata. Riprova oppure REGISTRATI");
+		 if (!s.controlloUtente(mail)) {
+				req.setAttribute("mess", "mail o password errata. Riprova oppure REGISTRATI");
 				req.getRequestDispatcher("login.jsp").forward(req, resp);
 
 		}else if (ut.getTipo().equalsIgnoreCase("admin")) {
@@ -42,7 +41,7 @@ public class Login extends HttpServlet{
 
 			}  else {
 				if (!ut.isActive()) {
-					req.setAttribute("messaggio", scriviRispostaUtenteNonAttivo(ut));
+					req.setAttribute("mess", scriviRispostaUtenteNonAttivo(ut));
 					s.close();
 					req.getRequestDispatcher("login.jsp").forward(req, resp);
 				} else {
