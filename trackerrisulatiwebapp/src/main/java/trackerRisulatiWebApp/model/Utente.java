@@ -1,4 +1,4 @@
-package trackerRisulatiWebApp.modelli;
+package trackerRisulatiWebApp.model;
 
 import java.util.List;
 
