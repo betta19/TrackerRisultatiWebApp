@@ -2,6 +2,10 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
 <head>
 <meta charset="ISO-8859-1">
 <title>Registrati!</title>
@@ -23,7 +27,7 @@
 	</h2>
 	<br>
 	<br>
-	<form action="registrazione" method="post" enctype="multipart/form-data">
+	<form action="registrazione" method="post">
 		<div class="cliente">
 
 			<p class="text-xl-center">Mail</p>

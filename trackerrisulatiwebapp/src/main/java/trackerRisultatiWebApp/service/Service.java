@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -102,11 +103,12 @@ public class Service {
 
 		TypedQuery<Utente> query = em.createQuery(
 				cr.where(cb.and(cb.equal(root.get("mail"), mail), cb.equal(root.get("password"), password))));
-		if (query.getSingleResult() == null) {
+	
+		try {
+			return query.getSingleResult();
+		} catch (NoResultException e) {
 			return null;
 		}
-		Utente singleResult = query.getSingleResult();
-		return singleResult;
 
 		/*
 		 * Utente u = this.em.find(Utente.class, mail);
