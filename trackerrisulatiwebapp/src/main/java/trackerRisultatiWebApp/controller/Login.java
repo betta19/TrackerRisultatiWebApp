@@ -30,13 +30,12 @@ public class Login extends HttpServlet{
 		
 		Utente ut = s.getUtente(mail);
 
-		 if (!s.controlloUtente(mail)) {
+		 if (ut == null) {
 				req.setAttribute("mess", "mail o password errata. Riprova oppure REGISTRATI");
 				req.getRequestDispatcher("login.jsp").forward(req, resp);
 
 		}else if (ut.getTipo().equalsIgnoreCase("admin")) {
-	        	session.setAttribute("mail", ut.getMail());
-	        	session.setAttribute("tipo", ut.getTipo());
+	        	session.setAttribute("utente", ut);
 				req.getRequestDispatcher("opzioniAdmin.jsp").forward(req, resp);
 
 			}  else {
@@ -45,8 +44,7 @@ public class Login extends HttpServlet{
 					s.close();
 					req.getRequestDispatcher("login.jsp").forward(req, resp);
 				} else {
-					session.setAttribute("tipo", ut.getTipo());
-					session.setAttribute("mail", ut.getMail());
+					session.setAttribute("utente", ut);
 					s.close();
 					req.getRequestDispatcher("opzioniCliente.jsp").forward(req, resp);
 				}
@@ -56,7 +54,7 @@ public class Login extends HttpServlet{
 }
 	
 private String generaLinkValidazioneUtente(String utente) {
-	String validationPath = "http://localhost:8080/bibliotecaWebApp/validazione?utente=";
+	String validationPath = "http://localhost:8080/trackerrisulatiwebapp/validazione?utente=";
 	return "Per attivare la mail clicca su questo link: " + validationPath + utente;
 }
 

@@ -5,6 +5,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import trackerRisulatiWebApp.model.Comp;
 import trackerRisulatiWebApp.model.Eroe;
@@ -23,26 +27,45 @@ public class Service {
 	}
 
 	public Utente getUtente(String mail) {
-		Utente utente = (Utente) em.createQuery("SELECT u FROM Utente u WHERE u.mail = :mail")
-				.setParameter("mail", mail).getSingleResult();
-		return utente;
+		Utente u;
+		try {
+			Query query = em.createQuery("SELECT ut FROM Utente ut WHERE ut.mail = :mail ", Utente.class);
+			query.setParameter("mail", mail);
+			u = (Utente) query.getSingleResult();
+			if (u != null) {
+
+			}
+		} catch (Exception e) {
+			return null;
+		}
+		return u;
 
 	}
 
-	public boolean controlloUtente(String mail) {
+	public Utente controlloUtente(String mail, String password) {
 
-		try {
+		Query query = em
+				.createQuery("SELECT u FROM Utente u WHERE u.mail = :mail and u.password = :password ", Utente.class);
+		query.setParameter("mail", mail);
+		query.setParameter("password", password);
+		Utente u =  (Utente) query.getSingleResult();
+		return u;
+		/*
+		 * try {
+		 * 
+		 * 
+		 * if (u == null) { return false; } } catch (Exception e) { return false; }
+		 * return true;
+		 */
 
-			Query query = em.createQuery("SELECT ut FROM Utente ut WHERE ut.mail = :mail ", Utente.class);
-			query.setParameter("mail", mail);
-			Utente u = (Utente) query.getSingleResult();
-			if (u != null) {
-			
-			}
-		} catch (Exception e) {
-			return false;
-		} 
-		return true;
+		/*
+		 * List<Utente> lista =
+		 * em.createQuery("SELECT u FROM Utente u WHERE u.mail = :mail ", Utente.class)
+		 * .setParameter("mail", mail).getResultList();
+		 * 
+		 * for (int i = 0; i < lista.size(); i++) { if
+		 * (lista.get(i).getMail().equals(mail)) { return true; } } return false;
+		 */
 
 	}
 
@@ -59,25 +82,22 @@ public class Service {
 		return lista;
 	}
 
-	public boolean checkRegistraUtente(String mail) {
+	public Utente checkRegistraUtente(String mail, String password) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Utente> cr = cb.createQuery(Utente.class);
+		Root<Utente> root = cr.from(Utente.class);
+		cr.select(root);
+
+		TypedQuery<Utente> query = em.createQuery(
+				cr.where(cb.and(cb.equal(root.get("mail"), mail), cb.equal(root.get("password"), password))));
+		Utente singleResult = query.getSingleResult();
+		return singleResult;
 
 		/*
-		 * List<Utente> lista =
-		 * em.createQuery("SELECT u FROM Utente u WHERE u.mail = :mail ",
-		 * Utente.class).setParameter("mail", mail).getResultList();
+		 * Utente u = this.em.find(Utente.class, mail);
 		 * 
-		 * 
-		 * 
-		 * for (int i = 0; i < lista.size(); i++) { if
-		 * (lista.get(i).getMail().equals(mail)) { return true; } } return false;
+		 * if (u.getMail().equals(mail)) { return true; } return false;
 		 */
-
-		Utente u = this.em.find(Utente.class, mail);
-
-		if (u.getMail().equals(mail)) {
-			return true;
-		}
-		return false;
 	}
 
 	public void salvaUtente(String mail, String password) {

@@ -34,21 +34,9 @@ public class Registrazione extends HttpServlet {
 		HttpSession session = req.getSession();
 		Service s = new Service(emf);
 		
-
-		if (mail.equals("admin")) {
-			req.setAttribute("mess", "Se sei l'amministratore, effettua l'accesso");
-
-			req.getRequestDispatcher("login.jsp").forward(req, resp);
-		} else if (s.checkRegistraUtente(mail)) {
-			req.setAttribute("mess",
-					"Credenziali già presenti; provi con un altra mail, se è gia registrato per entrare nel sito cliccare su Accedi");
-			session.setAttribute("mail", mail);
-			s.close();
-			req.getRequestDispatcher("login.jsp").forward(req, resp);
-		}
-
-		else {
-
+		//Utente ut = s.getUtente(mail);
+		Utente u = s.controlloUtente(mail, password);
+	   if (u == null && !mail.equals("admin")) {
 			s.salvaUtente(mail, password);
 
 			Utente u1 = new Utente();
@@ -60,7 +48,7 @@ public class Registrazione extends HttpServlet {
 				e.printStackTrace();
 			}
 
-			session.setAttribute("mail", mail);
+			//session.setAttribute("mail", mail);
 			req.setAttribute("mess",
 					"La registrazione sarà confermata solo dopo aver cliccato sul link che le abbiamo inviato sulla sua mail");
 			s.close();
@@ -68,10 +56,19 @@ public class Registrazione extends HttpServlet {
 			req.getRequestDispatcher("login.jsp").forward(req, resp);
 		}
 
+		else {
+req.setAttribute("mess",
+					"Credenziali già presenti; provi con un altra mail, se è gia registrato per entrare nel sito cliccare su Accedi");
+			//session.setAttribute("mail", mail);
+			s.close();
+			req.getRequestDispatcher("login.jsp").forward(req, resp);
+			
+		}
+
 	}
 
 	private String generaLinkValidazioneUtente(Utente utente) {
-		String validationPath = "http://localhost:8080/bibliotecawebapp/validazione?utente=";
+		String validationPath = "http://localhost:8080/trackerrisulatiwebapp/validazione?utente=";
 		return "Per attivare la mail clicca su questo link: " + validationPath + utente.getMail();
 	}
 
