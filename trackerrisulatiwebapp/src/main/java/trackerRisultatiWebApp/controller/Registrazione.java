@@ -35,14 +35,14 @@ public class Registrazione extends HttpServlet {
 		Service s = new Service(emf);
 		
 		//Utente ut = s.getUtente(mail);
-		Utente u = s.controlloUtente(mail, password);
+		Utente u = s.checkRegistraUtente(mail, password);
 	   if (u == null && !mail.equals("admin")) {
 			s.salvaUtente(mail, password);
 
-			Utente u1 = new Utente();
+			u= new Utente();
 
 			try {
-				Mail.sendEmail(u1.getMail(), "Conferma Mail", generaLinkValidazioneUtente(u1));
+				Mail.sendEmail(u.getMail(), "Conferma Mail", generaLinkValidazioneUtente(u));
 			} catch (MessagingException | IOException e) {
 
 				e.printStackTrace();

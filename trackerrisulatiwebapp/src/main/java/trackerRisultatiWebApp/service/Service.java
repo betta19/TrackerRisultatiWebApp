@@ -1,5 +1,15 @@
 package trackerRisultatiWebApp.service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Base64;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,6 +19,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.servlet.http.Part;
 
 import trackerRisulatiWebApp.model.Comp;
 import trackerRisulatiWebApp.model.Eroe;
@@ -73,6 +84,7 @@ public class Service {
 
 		List<Eroe> lista = em.createQuery("SELECT e FROM Eroe e", Eroe.class).getResultList();
 		return lista;
+		
 
 	}
 
@@ -90,6 +102,9 @@ public class Service {
 
 		TypedQuery<Utente> query = em.createQuery(
 				cr.where(cb.and(cb.equal(root.get("mail"), mail), cb.equal(root.get("password"), password))));
+		if (query.getSingleResult() == null) {
+			return null;
+		}
 		Utente singleResult = query.getSingleResult();
 		return singleResult;
 
@@ -112,6 +127,48 @@ public class Service {
 		em.persist(utente);
 		em.getTransaction().commit();
 
-	}
+	} 
+	/*public void salvaEroe(String nome, InputStream image, String heroDescrizione, String heroPower) throws IOException {
+		
+		Eroe e = new Eroe();
 
+		e.setNome(nome);
+		
+		byte[] picInBytes = new byte[(byte) image.readAllBytes()];
+
+		image.read(picInBytes);
+		image.close();
+		
+		e.setImmagine(picInBytes);
+		e.setHeroDescrizione(heroDescrizione);
+		e.setHeroPower(heroPower);
+
+		em.getTransaction().begin();
+		em.persist(e);
+		em.getTransaction().commit();
+
+	}
+	
+	public Utente prendiImmagine(InputStream inputStream) {
+
+		PreparedStatement statement = connessione.prepareStatement("select immagine from utente where username = ?");
+		statement.setString(1, username);
+		ResultSet executeQuery = statement.executeQuery();
+		while (executeQuery.next()) {
+			Blob blob = executeQuery.getBlob("immagine");
+			InputStream inputStream = blob.getBinaryStream();
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			byte[] buffer = new byte[4096];
+			int bytesRead = -1;
+			while ((bytesRead = inputStream.read(buffer)) != -1) {
+				outputStream.write(buffer, 0, bytesRead);
+			}
+			byte[] imageBytes = outputStream.toByteArray();
+			String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
+			return new Utente(username, base64Image);
+		}
+		return null;
+
+	}*/
 }
