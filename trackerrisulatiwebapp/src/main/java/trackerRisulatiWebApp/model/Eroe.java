@@ -1,6 +1,5 @@
 package trackerRisulatiWebApp.model;
 
-import java.util.Arrays;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,9 +15,9 @@ public class Eroe {
 	private long id;
 	@Lob
 	@Column(columnDefinition = "LONGBLOB NOT NULL")
-	private byte[] immagine;
+	private String immagine;
 	private String nome;
-	private String heroPower;
+	private int heroPower;
 	private String heroDescrizione;
 
 	public Eroe() {
@@ -33,11 +32,11 @@ public class Eroe {
 		this.id = id;
 	}
 
-	public byte[] getImmagine() {
+	public String getImmagine() {
 		return immagine;
 	}
 
-	public void setImmagine(byte[] immagine) {
+	public void setImmagine(String immagine) {
 		this.immagine = immagine;
 	}
 
@@ -49,11 +48,11 @@ public class Eroe {
 		this.nome = nome;
 	}
 
-	public String getHeroPower() {
+	public int getHeroPower() {
 		return heroPower;
 	}
 
-	public void setHeroPower(String heroPower) {
+	public void setHeroPower(int heroPower) {
 		this.heroPower = heroPower;
 	}
 
@@ -67,10 +66,11 @@ public class Eroe {
 
 	@Override
 	public String toString() {
-		return "Eroe [id=" + id + ", immagine=" + Arrays.toString(immagine) + ", nome=" + nome + ", heroPower="
-				+ heroPower + ", heroDescrizione=" + heroDescrizione + "]";
+		return "Eroe [id=" + id + ", immagine=" + immagine + ", nome=" + nome + ", heroPower=" + heroPower
+				+ ", heroDescrizione=" + heroDescrizione + "]";
 	}
 
+	
 	
 
 }

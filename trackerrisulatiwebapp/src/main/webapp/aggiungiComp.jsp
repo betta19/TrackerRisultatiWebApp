@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-    
 <!DOCTYPE html>
 <html>
 <link rel="stylesheet"
@@ -15,24 +13,15 @@
 <body>
 	<hr>
 	<ol>
-		<c:forEach items="${listaEroi}" var="singoloEroe">
-			<li><c:out value="${singoloEroe.getNome() }" /></li>
+		<c:forEach items="${listaComp}" var="singoloComp">
+			<li><c:out value="${singoloComp.getNome()}" /></li>
 		</c:forEach>
 	</ol>
 	<hr>
-	<form action="aggiungiEroe" method="post" enctype = "multipart/form-data">
+	<form action="aggiungiComp" method="post" >
 
     <p class="text-xl-center">Inserisci nome</p>
     <input type="text" class="form-control" id="nome" name="nome" style="width:250px; height:50px;margin:auto" placeholder="Nome"> <br>
-      <p class="text-xl-center">Inserisci hero power</p>
-    <input type="number" class="form-control" id="heroPower" name="heroPower" style="width:250px; height:50px;margin:auto" placeholder="Hero Power">
- <br> 
-  <p class="text-xl-center">Inserisci hero descrizione</p>
-    <input type="text" class="form-control" id="heroDescrizione" name="heroDescrizione" style="width:250px; height:50px;margin:auto" placeholder="Hero Descrizione"> <br><p class="text-xl-center"> 
- <input type="file"  id="image" name="image" placeholder="Inserisci immagine hero">
- </p>
-   
-
 <br>
   <input type="submit"class="btn btn-outline-primary btn-block" style="width:150px; height:45px;margin:auto" name= action value="Aggiungi">
 

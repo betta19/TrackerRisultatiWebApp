@@ -1,14 +1,7 @@
 package trackerRisultatiWebApp.service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Blob;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Base64;
 import java.util.List;
 
@@ -56,11 +49,11 @@ public class Service {
 
 	public Utente controlloUtente(String mail, String password) {
 
-		Query query = em
-				.createQuery("SELECT u FROM Utente u WHERE u.mail = :mail and u.password = :password ", Utente.class);
+		Query query = em.createQuery("SELECT u FROM Utente u WHERE u.mail = :mail and u.password = :password ",
+				Utente.class);
 		query.setParameter("mail", mail);
 		query.setParameter("password", password);
-		Utente u =  (Utente) query.getSingleResult();
+		Utente u = (Utente) query.getSingleResult();
 		return u;
 		/*
 		 * try {
@@ -85,7 +78,6 @@ public class Service {
 
 		List<Eroe> lista = em.createQuery("SELECT e FROM Eroe e", Eroe.class).getResultList();
 		return lista;
-		
 
 	}
 
@@ -103,7 +95,7 @@ public class Service {
 
 		TypedQuery<Utente> query = em.createQuery(
 				cr.where(cb.and(cb.equal(root.get("mail"), mail), cb.equal(root.get("password"), password))));
-	
+
 		try {
 			return query.getSingleResult();
 		} catch (NoResultException e) {
@@ -129,19 +121,18 @@ public class Service {
 		em.persist(utente);
 		em.getTransaction().commit();
 
-	} 
-	/*public void salvaEroe(String nome, InputStream image, String heroDescrizione, String heroPower) throws IOException {
-		
+	}
+
+	public void salvaEroe(String nome, Part image, String heroDescrizione, int heroPower) throws IOException {
+
+		InputStream f = image.getInputStream();
+		byte[] imageBytes = new byte[(int) image.getSize()];
+		f.read(imageBytes, 0, imageBytes.length);
+		f.close();
+		String imageStr = Base64.getEncoder().encodeToString(imageBytes);
 		Eroe e = new Eroe();
-
 		e.setNome(nome);
-		
-		byte[] picInBytes = new byte[(byte) image.readAllBytes()];
-
-		image.read(picInBytes);
-		image.close();
-		
-		e.setImmagine(picInBytes);
+		e.setImmagine(imageStr);
 		e.setHeroDescrizione(heroDescrizione);
 		e.setHeroPower(heroPower);
 
@@ -150,27 +141,14 @@ public class Service {
 		em.getTransaction().commit();
 
 	}
-	
-	public Utente prendiImmagine(InputStream inputStream) {
 
-		PreparedStatement statement = connessione.prepareStatement("select immagine from utente where username = ?");
-		statement.setString(1, username);
-		ResultSet executeQuery = statement.executeQuery();
-		while (executeQuery.next()) {
-			Blob blob = executeQuery.getBlob("immagine");
-			InputStream inputStream = blob.getBinaryStream();
-			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-			byte[] buffer = new byte[4096];
-			int bytesRead = -1;
-			while ((bytesRead = inputStream.read(buffer)) != -1) {
-				outputStream.write(buffer, 0, bytesRead);
-			}
-			byte[] imageBytes = outputStream.toByteArray();
-			String base64Image = Base64.getEncoder().encodeToString(imageBytes);
 
-			return new Utente(username, base64Image);
-		}
-		return null;
-
-	}*/
+	public Comp salvaComp(String nome) {
+		Comp c = new Comp();
+		c.setNome(nome);
+		em.getTransaction().begin();
+		em.persist(c);
+		em.getTransaction().commit();
+		return c;
+	}
 }
