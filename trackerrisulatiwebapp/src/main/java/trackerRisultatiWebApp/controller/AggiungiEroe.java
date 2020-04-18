@@ -37,9 +37,9 @@ public class AggiungiEroe extends HttpServlet {
 		try {
 			s = new Service(emf);
 			s.salvaEroe(nome, image, heroDescrizione, heroPower);
-			s.close();
+			
 			req.setAttribute("listaEroi", s.stampaListaEroi());
-
+			s.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

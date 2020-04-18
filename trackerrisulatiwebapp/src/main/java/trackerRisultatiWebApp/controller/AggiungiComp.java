@@ -28,9 +28,9 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 	try {
 		s = new Service(emf);
 		s.salvaComp(nome);
-		s.close();
+		
 		req.setAttribute("listaComp", s.stampaListaComp());
-
+		s.close();
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
