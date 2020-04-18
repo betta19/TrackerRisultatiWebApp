@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import trackerRisulatiWebApp.model.Eroe;
 import trackerRisultatiWebApp.service.Service;
 
 @MultipartConfig
@@ -37,21 +38,22 @@ public class AggiungiEroe extends HttpServlet {
 		Service s = new Service(emf);
 
 		try {
-
-			if (!s.checkNomeEroe(nome)) {
+Eroe eroe = s.checkNomeEroe(nome);
+			if (eroe == null) {
 
 				s.salvaEroe(nome, image, heroDescrizione, heroPower);
 
-				s.close();
+				
 			} else {
 
 				req.setAttribute("mess", "Eroe già presente");
-				s.close();
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		req.setAttribute("listaEroi", s.stampaListaEroi());
+		
+		req.setAttribute("listaEroi", s.stampaListaEroi());s.close();
 		req.getRequestDispatcher("/aggiungiEroe.jsp").forward(req, resp);
 
 	}

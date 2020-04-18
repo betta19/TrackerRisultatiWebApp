@@ -35,17 +35,16 @@ public class Service {
 
 	public Utente getUtente(String mail) {
 		Utente u;
-		
-			Query query = em.createQuery("SELECT ut FROM Utente ut WHERE ut.mail = :mail ", Utente.class);
-			query.setParameter("mail", mail);
-			u = (Utente) query.getSingleResult();
-			
-			
-			try {
-				return u;
-			} catch (NoResultException e) {
-				return null;
-			}
+
+		Query query = em.createQuery("SELECT ut FROM Utente ut WHERE ut.mail = :mail ", Utente.class);
+		query.setParameter("mail", mail);
+		u = (Utente) query.getSingleResult();
+
+		try {
+			return u;
+		} catch (NoResultException e) {
+			return null;
+		}
 
 	}
 
@@ -91,14 +90,12 @@ public class Service {
 
 	public void validaUtente(String mail) {
 
-		
 		Query query = em.createQuery("SELECT u FROM Utente u WHERE u.mail = :mail", Utente.class);
 		query.setParameter("mail", mail);
 		Utente utente = (Utente) query.getSingleResult();
 		em.getTransaction().begin();
 		utente.setActive(true);
 		em.getTransaction().commit();
-		
 
 	}
 
@@ -157,23 +154,15 @@ public class Service {
 
 	}
 
-	public boolean checkNomeEroe(String nome) {
+	public Eroe checkNomeEroe(String nome) {
 
 		Query query = em.createQuery("SELECT e FROM Eroe e WHERE e.nome = :nome", Eroe.class);
 		query.setParameter("nome", nome);
-		Eroe eroe = (Eroe) query.getSingleResult();
 		try {
-			if (eroe != null) {
-
-				return true;
-			}
-
-			else {
-				return false;
-			}
-
+			Eroe eroe = (Eroe) query.getSingleResult();
+			return eroe;
 		} catch (NoResultException e) {
-			return false;
+			return null;
 		}
 
 	}
