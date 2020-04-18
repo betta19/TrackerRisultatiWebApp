@@ -1,7 +1,6 @@
 package trackerRisultatiWebApp.controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
@@ -13,38 +12,46 @@ import javax.servlet.http.HttpSession;
 
 import trackerRisultatiWebApp.service.Service;
 
-@WebServlet(urlPatterns = { "/admin/gestioneAdmin", "/gestioneAdmin" })
-public class Admin extends HttpServlet {
-
+@WebServlet(urlPatterns = { "/cliente/gestioneCliente", "/gestioneCliente" })
+public class Cliente extends HttpServlet{
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		req.getRequestDispatcher("/home.jsp").forward(req, resp);
 
 	}
-
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
 		EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
 		String azione = req.getParameter("azione");
 		HttpSession session = req.getSession();
 		Service s = new Service(emf);
 
-		if (azione.equalsIgnoreCase("Aggiungi eroe")) {
+		if (azione.equalsIgnoreCase("Crea Partita")) {
 
-			req.setAttribute("listaEroi", s.stampaListaEroi());
+			
 			s.close();
 
-			req.getRequestDispatcher("/aggiungiEroe.jsp").forward(req, resp);
+			req.getRequestDispatcher("/partita.jsp").forward(req, resp);
 		}
 		
-		else if (azione.equalsIgnoreCase("Aggiungi composizione")) {
+		else if (azione.equalsIgnoreCase("Visualizza statistiche partita")) {
 
 			req.setAttribute("listaComp", s.stampaListaComp());
 			s.close();
 
-			req.getRequestDispatcher("/aggiungiComp.jsp").forward(req, resp);
+			req.getRequestDispatcher("/statistiche.jsp").forward(req, resp);
 		} 
+		else if (azione.equalsIgnoreCase("Lista Eroi")) {
+
+			req.setAttribute("listaEroi", s.stampaListaEroi());
+			s.close();
+
+			req.getRequestDispatcher("/listaEroi.jsp").forward(req, resp);
+		}
 		
 		else if (azione.equalsIgnoreCase("Logout")) {
 
@@ -55,4 +62,7 @@ public class Admin extends HttpServlet {
 		}
 	}
 
-}
+	}
+	
+
+

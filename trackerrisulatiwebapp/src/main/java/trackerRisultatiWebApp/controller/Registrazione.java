@@ -39,16 +39,16 @@ public class Registrazione extends HttpServlet {
 	   if (u == null && !mail.equals("admin")) {
 			s.salvaUtente(mail, password);
 
-			u= new Utente();
+			//u= new Utente();
 
 			try {
-				Mail.sendEmail(u.getMail(), "Conferma Mail", generaLinkValidazioneUtente(u));
+				Mail.sendEmail(mail, "Conferma Mail", generaLinkValidazioneUtente(mail));
 			} catch (MessagingException | IOException e) {
 
 				e.printStackTrace();
 			}
 
-			//session.setAttribute("mail", mail);
+			session.setAttribute("mail", mail);
 			req.setAttribute("mess",
 					"La registrazione sarà confermata solo dopo aver cliccato sul link che le abbiamo inviato sulla sua mail");
 			s.close();
@@ -67,9 +67,9 @@ req.setAttribute("mess",
 
 	}
 
-	private String generaLinkValidazioneUtente(Utente utente) {
-		String validationPath = "http://localhost:8080/trackerrisulatiwebapp/validazione?utente=";
-		return "Per attivare la mail clicca su questo link: " + validationPath + utente.getMail();
+	private String generaLinkValidazioneUtente(String mail) {
+		String validationPath = "http://localhost:8080/trackerrisulatiwebapp/validazione?mail=";
+		return "Per attivare la mail clicca su questo link: " + validationPath + mail;
 	}
 
 }

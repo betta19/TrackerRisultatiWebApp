@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import javax.mail.MessagingException;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import javax.servlet.http.Part;
 
 import trackerRisultatiWebApp.service.Service;
 
+@MultipartConfig
 @WebServlet(name = "aggiungiEroe", urlPatterns = "/admin/aggiungiEroe")
 
 public class AggiungiEroe extends HttpServlet {
@@ -32,17 +34,24 @@ public class AggiungiEroe extends HttpServlet {
 		String heroDescrizione = req.getParameter("heroDescrizione");
 		Part image = req.getPart("image");
 
-		Service s;
+		Service s = new Service(emf);
 
 		try {
-			s = new Service(emf);
-			s.salvaEroe(nome, image, heroDescrizione, heroPower);
-			
-			req.setAttribute("listaEroi", s.stampaListaEroi());
-			s.close();
+
+			if (!s.checkNomeEroe(nome)) {
+
+				s.salvaEroe(nome, image, heroDescrizione, heroPower);
+
+				s.close();
+			} else {
+
+				req.setAttribute("mess", "Eroe già presente");
+				s.close();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		req.setAttribute("listaEroi", s.stampaListaEroi());
 		req.getRequestDispatcher("/aggiungiEroe.jsp").forward(req, resp);
 
 	}

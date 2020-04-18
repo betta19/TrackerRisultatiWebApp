@@ -13,10 +13,22 @@
 <title>Insert title here</title>
 </head>
 <body>
+<br>
+<% String mess = (String) request.getAttribute("mess"); 
+	if (mess != null ){
+		%>
+	<h4><p class="text-md-center text-danger"><%=mess%></p></h4>
+		
+					
+	<% }
+	
+
+
+%><br>
 	<hr>
 	<ol>
 		<c:forEach items="${listaEroi}" var="singoloEroe">
-			<li><c:out value="${singoloEroe.getNome() }" /></li>
+			<li><c:out value="${singoloEroe.getNome()}" /></li>
 		</c:forEach>
 	</ol>
 	<hr>

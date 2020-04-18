@@ -2,6 +2,8 @@ package trackerRisultatiWebApp.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Base64;
 import java.util.List;
 
@@ -33,17 +35,17 @@ public class Service {
 
 	public Utente getUtente(String mail) {
 		Utente u;
-		try {
+		
 			Query query = em.createQuery("SELECT ut FROM Utente ut WHERE ut.mail = :mail ", Utente.class);
 			query.setParameter("mail", mail);
 			u = (Utente) query.getSingleResult();
-			if (u != null) {
-
+			
+			
+			try {
+				return u;
+			} catch (NoResultException e) {
+				return null;
 			}
-		} catch (Exception e) {
-			return null;
-		}
-		return u;
 
 	}
 
@@ -85,6 +87,19 @@ public class Service {
 
 		List<Comp> lista = em.createQuery("SELECT c FROM Comp c", Comp.class).getResultList();
 		return lista;
+	}
+
+	public void validaUtente(String mail) {
+
+		
+		Query query = em.createQuery("SELECT u FROM Utente u WHERE u.mail = :mail", Utente.class);
+		query.setParameter("mail", mail);
+		Utente utente = (Utente) query.getSingleResult();
+		em.getTransaction().begin();
+		utente.setActive(true);
+		em.getTransaction().commit();
+		
+
 	}
 
 	public Utente checkRegistraUtente(String mail, String password) {
@@ -142,6 +157,26 @@ public class Service {
 
 	}
 
+	public boolean checkNomeEroe(String nome) {
+
+		Query query = em.createQuery("SELECT e FROM Eroe e WHERE e.nome = :nome", Eroe.class);
+		query.setParameter("nome", nome);
+		Eroe eroe = (Eroe) query.getSingleResult();
+		try {
+			if (eroe != null) {
+
+				return true;
+			}
+
+			else {
+				return false;
+			}
+
+		} catch (NoResultException e) {
+			return false;
+		}
+
+	}
 
 	public Comp salvaComp(String nome) {
 		Comp c = new Comp();
