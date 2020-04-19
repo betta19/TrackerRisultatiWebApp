@@ -12,17 +12,24 @@ public class Partita {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@OneToOne
-private Eroe eroe;
-	@OneToOne
-private Comp comp;
+	
+private String eroe;	
+private String comp;
 private int posizioneFinale;
 private String notePersonali;
 private int rating;
-
+private String nomeUtente;
 
 public Partita() {
 	
+}
+
+public String getNomeUtente() {
+	return nomeUtente;
+}
+
+public void setNomeUtente(String nomeUtente) {
+	this.nomeUtente = nomeUtente;
 }
 
 public long getId() {
@@ -31,18 +38,23 @@ public long getId() {
 public void setId(long id) {
 	this.id = id;
 }
-public Eroe getEroe() {
+
+public String getEroe() {
 	return eroe;
 }
-public void setEroe(Eroe eroe) {
+
+public void setEroe(String eroe) {
 	this.eroe = eroe;
 }
-public Comp getComp() {
+
+public String getComp() {
 	return comp;
 }
-public void setComp(Comp comp) {
+
+public void setComp(String comp) {
 	this.comp = comp;
 }
+
 public int getPosizioneFinale() {
 	return posizioneFinale;
 }

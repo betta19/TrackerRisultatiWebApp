@@ -37,12 +37,13 @@ public class Service {
 	public Utente getUtente(String mail) {
 		Utente u;
 
-		Query query = em.createQuery("SELECT ut FROM Utente ut WHERE ut.mail = :mail ", Utente.class);
+		Query query = em.createQuery("SELECT u FROM Utente u WHERE u.mail = :mail ", Utente.class);
 		query.setParameter("mail", mail);
-		u = (Utente) query.getSingleResult();
 
 		try {
+			u = (Utente) query.getSingleResult();
 			return u;
+
 		} catch (NoResultException e) {
 			return null;
 		}
@@ -155,7 +156,7 @@ public class Service {
 		em.getTransaction().commit();
 		return c;
 	}
-	
+
 	public Eroe getEroe(String nomeEroe) {
 		Eroe e;
 
@@ -170,8 +171,9 @@ public class Service {
 		}
 
 	}
+
 	public Comp getComp(String nomeComp) {
-	Comp c;
+		Comp c;
 
 		Query query = em.createQuery("SELECT c FROM Comp c WHERE c.nome = :nome ", Comp.class);
 		query.setParameter("nome", nomeComp);
@@ -185,21 +187,97 @@ public class Service {
 
 	}
 
-	public Partita salvaPartita(String nomeEroe, String nomeComp, int rank, String note, int punti ) {
+	public Partita salvaPartita(String nomeEroe, String nomeComp, int rank, String note, int punti, String nomeUtente) {
 		Partita p = new Partita();
-		Eroe eroe = getEroe(nomeEroe);
-		Comp comp = getComp(nomeComp);
-		
-		p.setEroe(eroe);
-		p.setComp(comp);
+
+		p.setEroe(nomeEroe);
+		p.setComp(nomeComp);
 		p.setPosizioneFinale(rank);
 		p.setNotePersonali(note);
 		p.setRating(punti);
-		
+		p.setNomeUtente(nomeUtente);
 		em.getTransaction().begin();
 		em.persist(p);
 		em.getTransaction().commit();
 		return p;
 	}
-}
 
+	public List<Partita> stampaListaPartite(String nomeUtente) {
+		List<Partita> lista = em.createQuery("SELECT p FROM Partita p WHERE p.nomeUtente = :nomeUtente", Partita.class)
+				.setParameter("nomeUtente", nomeUtente).getResultList();
+
+		return lista;
+
+	}
+
+	public long getTotalePartite(String nomeUtente) {
+		TypedQuery<Long> query = em.createQuery("SELECT COUNT (p.id) FROM Partita p WHERE p.nomeUtente = :nomeUtente", Long.class);
+		query.setParameter("nomeUtente", nomeUtente);
+		long totale = (long) query.getSingleResult();
+		return totale;
+	}
+	public long getTotalePartiteEroe(String nomeEroe) {
+		TypedQuery<Long> query = em.createQuery("SELECT COUNT (p.id) FROM Partita p WHERE p.eroe = :eroe", Long.class);
+		query.setParameter("eroe", nomeEroe);
+		long totale = (long) query.getSingleResult();
+		return totale;
+	}
+	public int getTop4(String nomeUtente) {
+		List<Integer> listaPosizioni = em.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.nomeUtente = :nomeUtente", Integer.class).setParameter("nomeUtente", nomeUtente).getResultList();
+		long totale = getTotalePartite(nomeUtente);
+		int counter = 0;
+		for (int i = 0; i < listaPosizioni.size(); i++) {
+			if(listaPosizioni.get(i) < 5) {
+				counter ++;
+			}
+		} 
+		if(totale== 0) {
+			return 0;}
+		int top4 = counter*100 / (int) totale;
+		return top4;
+		
+	}
+	public int getWin(String nomeUtente) {
+		List<Integer> listaPosizioni = em.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.nomeUtente = :nomeUtente", Integer.class).setParameter("nomeUtente", nomeUtente).getResultList();
+	
+		int counter = 0;
+		for (int i = 0; i < listaPosizioni.size(); i++) {
+			if(listaPosizioni.get(i) == 1) {
+				counter ++;
+			}
+		} 
+		
+		return counter;
+		
+	}
+	public int getTop4Eroe(String nomeEroe) {
+		List<Integer> listaPosizioni = em.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe", Integer.class).setParameter("eroe", nomeEroe).getResultList();
+		long totale = getTotalePartiteEroe(nomeEroe);
+		int counter = 0;
+		for (int i = 0; i < listaPosizioni.size(); i++) {
+			if(listaPosizioni.get(i) < 5) {
+				counter ++;
+			}
+		} 
+		if(totale== 0) {
+			return 0;}
+		
+		int top4 = counter*100 / (int) totale;
+		return top4 ;
+		
+	}
+	public int getWinEroe(String eroe) {
+		List<Integer> listaPosizioni = em.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe", Integer.class).setParameter("eroe", eroe).getResultList();
+	
+		int counter = 0;
+		for (int i = 0; i < listaPosizioni.size(); i++) {
+			if(listaPosizioni.get(i) == 1) {
+				counter ++;
+			}
+		} 
+		
+		return counter;
+		
+	}
+	
+}
