@@ -47,8 +47,11 @@
 			style="width: 150px; height: 45px; margin: auto" name="azione"
 			value="Registrati">
 	</form>
+	
 	<br>
 	<br>
-
+<form action="" method="post">
+  <input type="submit"  class="btn btn-outline-secondary btn-block" style="width:150px; height:50px;margin:auto" value="Torna Indietro">
+</form>
 </body>
 </html>

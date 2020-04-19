@@ -31,8 +31,8 @@ public class Cliente extends HttpServlet{
 		Service s = new Service(emf);
 
 		if (azione.equalsIgnoreCase("Crea Partita")) {
-
-			
+			req.setAttribute("listaEroi", s.stampaListaEroi());
+			req.setAttribute("listaComp", s.stampaListaComp());
 			s.close();
 
 			req.getRequestDispatcher("/partita.jsp").forward(req, resp);
@@ -59,10 +59,10 @@ public class Cliente extends HttpServlet{
 			s.close();
 
 			resp.sendRedirect(req.getContextPath() + "/");
+			
 		}
 	}
 
 	}
 	
-
 

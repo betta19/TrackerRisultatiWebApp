@@ -19,6 +19,7 @@ import javax.servlet.http.Part;
 
 import trackerRisulatiWebApp.model.Comp;
 import trackerRisulatiWebApp.model.Eroe;
+import trackerRisulatiWebApp.model.Partita;
 import trackerRisulatiWebApp.model.Utente;
 
 public class Service {
@@ -56,22 +57,6 @@ public class Service {
 		query.setParameter("password", password);
 		Utente u = (Utente) query.getSingleResult();
 		return u;
-		/*
-		 * try {
-		 * 
-		 * 
-		 * if (u == null) { return false; } } catch (Exception e) { return false; }
-		 * return true;
-		 */
-
-		/*
-		 * List<Utente> lista =
-		 * em.createQuery("SELECT u FROM Utente u WHERE u.mail = :mail ", Utente.class)
-		 * .setParameter("mail", mail).getResultList();
-		 * 
-		 * for (int i = 0; i < lista.size(); i++) { if
-		 * (lista.get(i).getMail().equals(mail)) { return true; } } return false;
-		 */
 
 	}
 
@@ -114,11 +99,6 @@ public class Service {
 			return null;
 		}
 
-		/*
-		 * Utente u = this.em.find(Utente.class, mail);
-		 * 
-		 * if (u.getMail().equals(mail)) { return true; } return false;
-		 */
 	}
 
 	public void salvaUtente(String mail, String password) {
@@ -175,4 +155,51 @@ public class Service {
 		em.getTransaction().commit();
 		return c;
 	}
+	
+	public Eroe getEroe(String nomeEroe) {
+		Eroe e;
+
+		Query query = em.createQuery("SELECT e FROM Eroe e WHERE e.nome = :nome ", Eroe.class);
+		query.setParameter("nome", nomeEroe);
+		e = (Eroe) query.getSingleResult();
+
+		try {
+			return e;
+		} catch (NoResultException a) {
+			return null;
+		}
+
+	}
+	public Comp getComp(String nomeComp) {
+	Comp c;
+
+		Query query = em.createQuery("SELECT c FROM Comp c WHERE c.nome = :nome ", Comp.class);
+		query.setParameter("nome", nomeComp);
+		c = (Comp) query.getSingleResult();
+
+		try {
+			return c;
+		} catch (NoResultException a) {
+			return null;
+		}
+
+	}
+
+	public Partita salvaPartita(String nomeEroe, String nomeComp, int rank, String note, int punti ) {
+		Partita p = new Partita();
+		Eroe eroe = getEroe(nomeEroe);
+		Comp comp = getComp(nomeComp);
+		
+		p.setEroe(eroe);
+		p.setComp(comp);
+		p.setPosizioneFinale(rank);
+		p.setNotePersonali(note);
+		p.setRating(punti);
+		
+		em.getTransaction().begin();
+		em.persist(p);
+		em.getTransaction().commit();
+		return p;
+	}
 }
+

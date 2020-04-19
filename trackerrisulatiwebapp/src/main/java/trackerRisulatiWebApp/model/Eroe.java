@@ -19,7 +19,7 @@ public class Eroe {
 	private String nome;
 	private int heroPower;
 	private String heroDescrizione;
-
+	
 	public Eroe() {
 
 	}
