@@ -74,7 +74,7 @@
 					</div>
 					<input type="submit" class="btn btn-outline-primary btn-block"
 						style="width: 150px; height: 40px; margin: auto" name="azione"
-						value="Vedi statistiche">
+						value="Vedi statistiche eroe">
 				</form>
 				<table class="table table-striped">
 
@@ -105,7 +105,23 @@
 					</tr>
 
 				</table>
+<table class="table table-striped">
 
+					<tr>
+						<th>Rating Iniziale</th>
+						<th>Rating attuale</th>
+						
+					</tr>
+
+
+					<tr>
+					
+						<td><%=(long) request.getAttribute("ratingIniziale")%></td>
+						<td><%=(long) request.getAttribute("currentRating")%></td>
+					
+					</tr>
+
+				</table>
 			</div>
 		</div>
 	</div>

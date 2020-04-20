@@ -32,7 +32,8 @@ public class Cliente extends HttpServlet{
 		String azione = req.getParameter("azione");
 		HttpSession session = req.getSession();
 		Service s = new Service(emf);
-
+		Utente u = (Utente) session.getAttribute("utente");
+		  
 		if (azione.equalsIgnoreCase("Crea Partita")) {
 			req.setAttribute("listaEroi", s.stampaListaEroi());
 			req.setAttribute("listaComp", s.stampaListaComp());
@@ -42,7 +43,9 @@ public class Cliente extends HttpServlet{
 		}
 		
 		else if (azione.equalsIgnoreCase("Visualizza statistiche partita")) {
-            Utente u = (Utente) session.getAttribute("utente");
+          
+            req.setAttribute("ratingIniziale", u.getRatingIniziale());
+            req.setAttribute("currentRating", s.calcoloCurrentRating(u));
             long totaleEroe = s.getTotalePartiteEroe("Seleziona");
             req.setAttribute("totaleEroe", totaleEroe);
 			req.setAttribute("listaPartite", s.stampaListaPartite(u.getMail()));
@@ -68,13 +71,14 @@ public class Cliente extends HttpServlet{
 
 			req.getRequestDispatcher("/listaEroi.jsp").forward(req, resp);
 		}
-		else if (azione.equalsIgnoreCase("Vedi statistiche")) {
+		else if (azione.equalsIgnoreCase("Vedi statistiche eroe")) {
            
             String nomeEroe = req.getParameter("eroe");
         	long totaleEroe = s.getTotalePartiteEroe(nomeEroe);
+        	req.setAttribute("ratingIniziale", u.getRatingIniziale());
+            req.setAttribute("currentRating", s.calcoloCurrentRating(u));
 			req.setAttribute("listaEroi", s.stampaListaEroi());
 			req.setAttribute("totaleEroe", totaleEroe);
-			 Utente u = (Utente) session.getAttribute("utente");
 				req.setAttribute("listaPartite", s.stampaListaPartite(u.getMail()));
 				long totale = s.getTotalePartite(u.getMail());
 				req.setAttribute("totale", totale);

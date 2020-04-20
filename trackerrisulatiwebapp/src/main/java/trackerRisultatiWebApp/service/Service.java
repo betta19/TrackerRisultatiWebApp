@@ -102,12 +102,13 @@ public class Service {
 
 	}
 
-	public void salvaUtente(String mail, String password) {
+	public void salvaUtente(String mail, String password, long ratingIniziale) {
 
 		Utente utente = new Utente();
 
 		utente.setMail(mail);
 		utente.setPassword(password);
+		utente.setRatingIniziale(ratingIniziale);
 		utente.setTipo("cliente");
 
 		em.getTransaction().begin();
@@ -316,25 +317,13 @@ public class Service {
 		  em.getTransaction().commit();
 		
 	}
-
-	/*public void modificaEroe(String nome, Part image, String heroDescrizione, int heroPower, String nomeVecchio)
-			throws IOException {
-		Eroe e;
-
-		Query query = em.createQuery("SELECT e FROM Eroe e WHERE e.nome = :nome ", Eroe.class);
-		query.setParameter("nome", nomeVecchio);
-		e = (Eroe) query.getSingleResult();
-		InputStream f = image.getInputStream();
-		byte[] imageBytes = new byte[(int) image.getSize()];
-		f.read(imageBytes, 0, imageBytes.length);
-		f.close();
-		String imageStr = Base64.getEncoder().encodeToString(imageBytes);
-		em.getTransaction().begin();
-		e.setNome(nome);
-		e.setImmagine(imageStr);
-		e.setHeroDescrizione(heroDescrizione);
-		e.setHeroPower(heroPower);
-		em.getTransaction().commit();
-	}*/
+public long calcoloCurrentRating (Utente ut) {
+	List <Partita> listaPartite  = em.createQuery("SELECT p FROM Partita p WHERE p.nomeUtente = :nomeUtente", Partita.class).setParameter("nomeUtente", ut.getMail()).getResultList();
+	long ratingTotale = 0;
+	for (int i = 0; i < listaPartite.size(); i++) {
+		ratingTotale += ut.getRatingIniziale() + listaPartite.get(i).getRating();
+	} return ratingTotale;
+	
+}
 
 }

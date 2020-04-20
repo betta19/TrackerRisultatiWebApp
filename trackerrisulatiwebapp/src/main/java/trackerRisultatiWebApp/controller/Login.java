@@ -47,6 +47,7 @@ public class Login extends HttpServlet{
 				} else {
 					session.setAttribute("mail", ut.getMail());
 					session.setAttribute("tipo", ut.getTipo());
+					session.setAttribute("utente", ut);
 					s.close();
 					req.getRequestDispatcher("opzioniCliente.jsp").forward(req, resp);
 				}

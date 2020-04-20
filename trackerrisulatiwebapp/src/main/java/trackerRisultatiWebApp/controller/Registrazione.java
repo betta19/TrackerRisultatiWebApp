@@ -31,15 +31,14 @@ public class Registrazione extends HttpServlet {
 		EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
 		String mail = req.getParameter("mail");
 		String password = req.getParameter("password");
+		long ratingIniziale = Long.parseLong("ratingIniziale");
 		Service s = new Service(emf);
 		
-		//Utente ut = s.getUtente(mail);
+		
 		Utente u = s.checkRegistraUtente(mail, password);
 	   if (u == null && !mail.equals("admin")) {
-			s.salvaUtente(mail, password);
-
-			//u= new Utente();
-
+			s.salvaUtente(mail, password, ratingIniziale);
+			
 			try {
 				Mail.sendEmail(mail, "Conferma Mail", generaLinkValidazioneUtente(mail));
 			} catch (MessagingException | IOException e) {
@@ -57,7 +56,7 @@ public class Registrazione extends HttpServlet {
 		else {
 req.setAttribute("mess",
 					"Credenziali già presenti; provi con un altra mail, se è gia registrato per entrare nel sito cliccare su Accedi");
-			//session.setAttribute("mail", mail);
+			
 			s.close();
 			req.getRequestDispatcher("login.jsp").forward(req, resp);
 			

@@ -41,7 +41,12 @@
 				name="password" style="width: 250px; height: 50px; margin: auto"
 				placeholder="Password">
 		</div><br>
-		
+		<div class="cliente">
+			<p class="text-xl-center">Rating iniziale</p>
+			<input type="number" class="form-control" id="rating"
+				name="rating" style="width: 250px; height: 50px; margin: auto"
+				placeholder="Rating iniziale">
+		</div><br>
 		
 		<input type="submit" class="btn btn-outline-primary btn-block"
 			style="width: 150px; height: 45px; margin: auto" name="azione"
@@ -50,7 +55,8 @@
 	
 	<br>
 	<br>
-<form action="" method="post">
+		<% String path = request.getContextPath(); %>
+<form action="<%=path%>/" method="post">
   <input type="submit"  class="btn btn-outline-secondary btn-block" style="width:150px; height:50px;margin:auto" value="Torna Indietro">
 </form>
 </body>

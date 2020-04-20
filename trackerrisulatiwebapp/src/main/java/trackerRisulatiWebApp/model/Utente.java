@@ -22,12 +22,21 @@ private String tipo;
 private boolean active;
 @OneToMany
 List<Partita> listaPartita;
-
+private long ratingIniziale;
 
 
 public Utente() {
 
 }
+
+public long getRatingIniziale() {
+	return ratingIniziale;
+}
+
+public void setRatingIniziale(long ratingIniziale) {
+	this.ratingIniziale = ratingIniziale;
+}
+
 public List<Partita> getListaPartita() {
 	return listaPartita;
 }
