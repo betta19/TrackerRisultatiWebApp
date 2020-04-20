@@ -44,11 +44,11 @@
 							<br> <br>
 							<input type="submit" class="btn btn-outline-primary btn-block"
 						style="width: 300px; height: 60px; margin: auto" name="azione"
-						value="Rimuovi Eroe">
-						<br><br>
+						value="Gestione Eroe">
+						<br> <br>
 						<input type="submit" class="btn btn-outline-primary btn-block"
 						style="width: 300px; height: 60px; margin: auto" name="azione"
-						value="Rimuovi Comp">
+						value="Gestione Comp">
 						<br> <br>
 						<input type="submit"  class="btn btn-outline-secondary btn-block" 
 						style="width:150px; height:50px;margin:auto" name= "azione" value="Logout">

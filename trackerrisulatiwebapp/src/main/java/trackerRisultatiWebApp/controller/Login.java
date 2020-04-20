@@ -35,7 +35,8 @@ public class Login extends HttpServlet{
 				req.getRequestDispatcher("login.jsp").forward(req, resp);
 
 		}else if (ut.getTipo().equalsIgnoreCase("admin")) {
-	        	session.setAttribute("utente", ut);
+	        	session.setAttribute("mail", ut.getMail());
+	        	session.setAttribute("tipo", ut.getTipo());
 				req.getRequestDispatcher("opzioniAdmin.jsp").forward(req, resp);
 
 			}  else {
@@ -44,7 +45,8 @@ public class Login extends HttpServlet{
 					s.close();
 					req.getRequestDispatcher("login.jsp").forward(req, resp);
 				} else {
-					session.setAttribute("utente", ut);
+					session.setAttribute("mail", ut.getMail());
+					session.setAttribute("tipo", ut.getTipo());
 					s.close();
 					req.getRequestDispatcher("opzioniCliente.jsp").forward(req, resp);
 				}

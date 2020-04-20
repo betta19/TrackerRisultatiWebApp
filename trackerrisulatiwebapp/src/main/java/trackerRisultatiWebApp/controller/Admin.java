@@ -44,10 +44,10 @@ public class Admin extends HttpServlet {
 			s.close();
 
 			req.getRequestDispatcher("/aggiungiComp.jsp").forward(req, resp);
-		}else if(azione.equalsIgnoreCase("Rimuovi Eroe")) {
+		} else if (azione.equalsIgnoreCase("Gestione Eroe")) {
 			req.setAttribute("listaEroi", s.stampaListaEroi());
 			req.getRequestDispatcher("/listaEroiAdmin.jsp").forward(req, resp);
-		}else if(azione.equalsIgnoreCase("Rimuovi Comp")) {
+		} else if (azione.equalsIgnoreCase("Gestione Comp")) {
 			req.setAttribute("listaComp", s.stampaListaComp());
 			req.getRequestDispatcher("/listaComp.jsp").forward(req, resp);
 		}
@@ -58,18 +58,31 @@ public class Admin extends HttpServlet {
 			s.close();
 
 			resp.sendRedirect(req.getContextPath() + "/");
-		}  else if (azione.equalsIgnoreCase("Elimina")) {
-			 s.eliminaEroe(req.getParameter("nomeE"));
+		} else if (azione.equalsIgnoreCase("Elimina")) {
+			s.eliminaEroe(req.getParameter("nomeE"));
 			req.setAttribute("listaEroi", s.stampaListaEroi());
 			req.setAttribute("messaggio", "eroe eliminato con successo");
 			s.close();
 			req.getRequestDispatcher("/listaEroiAdmin.jsp").forward(req, resp);
-		}else if (azione.equalsIgnoreCase("Elimina Comp")) {
-			 s.eliminaComp(req.getParameter("nomeC"));
-			req.setAttribute("listaComp", s.stampaListaComp());
+		} else if (azione.equalsIgnoreCase("Modifica")) {
+			s.eliminaEroe(req.getParameter("nomeE"));
+			req.setAttribute("listaEroi", s.stampaListaEroi());
+			req.setAttribute("messaggio", "Eroe eliminato con successo");
+			s.close();
+			req.getRequestDispatcher("/aggiungiEroe.jsp").forward(req, resp);
+		}
+
+		else if (azione.equalsIgnoreCase("Elimina Comp")) {
+			s.eliminaComp(req.getParameter("nomeC"));
 			req.setAttribute("messaggio", "Comp eliminata con successo");
+			req.setAttribute("listaComp", s.stampaListaComp());
 			s.close();
 			req.getRequestDispatcher("/listaComp.jsp").forward(req, resp);
+		} else if (azione.equalsIgnoreCase("Modifica Comp")) {
+			s.eliminaComp(req.getParameter("nomeC"));
+			req.setAttribute("listaComp", s.stampaListaComp());
+			s.close();
+			req.getRequestDispatcher("/aggiungiComp.jsp").forward(req, resp);
 		}
 	}
 }

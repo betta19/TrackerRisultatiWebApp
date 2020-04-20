@@ -31,6 +31,7 @@
 					<tr>
 						<th>Nome</th>
 						<th>Elimina</th>
+						<th>Modifica</th>
 					</tr>
 					<c:forEach items="${listaComp}" var="singoloComp">
 
@@ -40,6 +41,14 @@
 								<form action="gestioneAdmin" method="post">
 									<input type="submit" class="btn btn-outline-secondary"
 										name="azione" value="Elimina Comp">
+										<input type="hidden" id="nomeC" name="nomeC"
+						value="<c:out value='${singoloComp.getNome()}'></c:out>"/>
+								</form>
+							</td>
+							<td>
+								<form action="gestioneAdmin" method="post">
+									<input type="submit" class="btn btn-outline-secondary"
+										name="azione" value="Modifica Comp">
 										<input type="hidden" id="nomeC" name="nomeC"
 						value="<c:out value='${singoloComp.getNome()}'></c:out>"/>
 								</form>

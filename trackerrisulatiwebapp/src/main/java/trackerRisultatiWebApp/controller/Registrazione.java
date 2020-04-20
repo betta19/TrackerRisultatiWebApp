@@ -31,7 +31,6 @@ public class Registrazione extends HttpServlet {
 		EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
 		String mail = req.getParameter("mail");
 		String password = req.getParameter("password");
-		HttpSession session = req.getSession();
 		Service s = new Service(emf);
 		
 		//Utente ut = s.getUtente(mail);
@@ -48,7 +47,6 @@ public class Registrazione extends HttpServlet {
 				e.printStackTrace();
 			}
 
-			session.setAttribute("mail", mail);
 			req.setAttribute("mess",
 					"La registrazione sarà confermata solo dopo aver cliccato sul link che le abbiamo inviato sulla sua mail");
 			s.close();

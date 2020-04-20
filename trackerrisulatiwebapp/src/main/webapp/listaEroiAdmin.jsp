@@ -34,6 +34,7 @@
 						<th>Costo HeroPower</th>
 						<th>HeroPower</th>
 						<th>Elimina</th>
+						<th>Modifica</th>
 					</tr>
 					<c:forEach items="${listaEroi}" var="singoloEroe">
 
@@ -47,6 +48,14 @@
 								<form action="gestioneAdmin" method="post">
 									<input type="submit" class="btn btn-outline-secondary"
 										name="azione" value="Elimina">
+										<input type="hidden" id="nomeE" name="nomeE"
+						value="<c:out value='${singoloEroe.getNome()}'></c:out>"/>
+								</form>
+							</td>
+							<td>
+								<form action="gestioneAdmin" method="post">
+									<input type="submit" class="btn btn-outline-secondary"
+										name="azione" value="Modifica">
 										<input type="hidden" id="nomeE" name="nomeE"
 						value="<c:out value='${singoloEroe.getNome()}'></c:out>"/>
 								</form>
