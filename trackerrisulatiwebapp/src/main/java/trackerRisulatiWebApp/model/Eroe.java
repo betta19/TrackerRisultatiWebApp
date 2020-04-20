@@ -17,7 +17,7 @@ public class Eroe {
 	@Column(columnDefinition = "LONGBLOB NOT NULL")
 	private String immagine;
 	private String nome;
-	private int heroPower;
+	private String heroPower;
 	private String heroDescrizione;
 	
 	public Eroe() {
@@ -48,11 +48,11 @@ public class Eroe {
 		this.nome = nome;
 	}
 
-	public int getHeroPower() {
+	public String getHeroPower() {
 		return heroPower;
 	}
 
-	public void setHeroPower(int heroPower) {
+	public void setHeroPower(String heroPower) {
 		this.heroPower = heroPower;
 	}
 

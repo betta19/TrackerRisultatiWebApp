@@ -42,6 +42,14 @@
 						style="width: 300px; height: 60px; margin: auto" name="azione"
 						value="Aggiungi composizione">
 							<br> <br>
+							<input type="submit" class="btn btn-outline-primary btn-block"
+						style="width: 300px; height: 60px; margin: auto" name="azione"
+						value="Rimuovi Eroe">
+						<br><br>
+						<input type="submit" class="btn btn-outline-primary btn-block"
+						style="width: 300px; height: 60px; margin: auto" name="azione"
+						value="Rimuovi Comp">
+						<br> <br>
 						<input type="submit"  class="btn btn-outline-secondary btn-block" 
 						style="width:150px; height:50px;margin:auto" name= "azione" value="Logout">
 				</form>

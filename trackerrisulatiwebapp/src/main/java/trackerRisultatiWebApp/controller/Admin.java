@@ -37,22 +37,39 @@ public class Admin extends HttpServlet {
 
 			req.getRequestDispatcher("/aggiungiEroe.jsp").forward(req, resp);
 		}
-		
+
 		else if (azione.equalsIgnoreCase("Aggiungi composizione")) {
 
 			req.setAttribute("listaComp", s.stampaListaComp());
 			s.close();
 
 			req.getRequestDispatcher("/aggiungiComp.jsp").forward(req, resp);
-		} 
-		
+		}else if(azione.equalsIgnoreCase("Rimuovi Eroe")) {
+			req.setAttribute("listaEroi", s.stampaListaEroi());
+			req.getRequestDispatcher("/listaEroiAdmin.jsp").forward(req, resp);
+		}else if(azione.equalsIgnoreCase("Rimuovi Comp")) {
+			req.setAttribute("listaComp", s.stampaListaComp());
+			req.getRequestDispatcher("/listaComp.jsp").forward(req, resp);
+		}
+
 		else if (azione.equalsIgnoreCase("Logout")) {
 
 			session.invalidate();
 			s.close();
 
 			resp.sendRedirect(req.getContextPath() + "/");
+		}  else if (azione.equalsIgnoreCase("Elimina")) {
+			 s.eliminaEroe(req.getParameter("nomeE"));
+			req.setAttribute("listaEroi", s.stampaListaEroi());
+			req.setAttribute("messaggio", "eroe eliminato con successo");
+			s.close();
+			req.getRequestDispatcher("/listaEroiAdmin.jsp").forward(req, resp);
+		}else if (azione.equalsIgnoreCase("Elimina Comp")) {
+			 s.eliminaComp(req.getParameter("nomeC"));
+			req.setAttribute("listaComp", s.stampaListaComp());
+			req.setAttribute("messaggio", "Comp eliminata con successo");
+			s.close();
+			req.getRequestDispatcher("/listaComp.jsp").forward(req, resp);
 		}
 	}
-
 }

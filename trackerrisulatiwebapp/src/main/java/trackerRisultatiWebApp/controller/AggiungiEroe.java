@@ -31,7 +31,7 @@ public class AggiungiEroe extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
 		String nome = req.getParameter("nome");
-		int heroPower = Integer.parseInt(req.getParameter("heroPower"));
+		String heroPower = req.getParameter("heroPower");
 		String heroDescrizione = req.getParameter("heroDescrizione");
 		Part image = req.getPart("image");
 

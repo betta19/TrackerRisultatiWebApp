@@ -116,7 +116,7 @@ public class Service {
 
 	}
 
-	public void salvaEroe(String nome, Part image, String heroDescrizione, int heroPower) throws IOException {
+	public void salvaEroe(String nome, Part image, String heroDescrizione, String heroPower) throws IOException {
 
 		InputStream f = image.getInputStream();
 		byte[] imageBytes = new byte[(int) image.getSize()];
@@ -211,73 +211,130 @@ public class Service {
 	}
 
 	public long getTotalePartite(String nomeUtente) {
-		TypedQuery<Long> query = em.createQuery("SELECT COUNT (p.id) FROM Partita p WHERE p.nomeUtente = :nomeUtente", Long.class);
+		TypedQuery<Long> query = em.createQuery("SELECT COUNT (p.id) FROM Partita p WHERE p.nomeUtente = :nomeUtente",
+				Long.class);
 		query.setParameter("nomeUtente", nomeUtente);
 		long totale = (long) query.getSingleResult();
 		return totale;
 	}
+
 	public long getTotalePartiteEroe(String nomeEroe) {
 		TypedQuery<Long> query = em.createQuery("SELECT COUNT (p.id) FROM Partita p WHERE p.eroe = :eroe", Long.class);
 		query.setParameter("eroe", nomeEroe);
 		long totale = (long) query.getSingleResult();
 		return totale;
 	}
+
 	public int getTop4(String nomeUtente) {
-		List<Integer> listaPosizioni = em.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.nomeUtente = :nomeUtente", Integer.class).setParameter("nomeUtente", nomeUtente).getResultList();
+		List<Integer> listaPosizioni = em
+				.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.nomeUtente = :nomeUtente", Integer.class)
+				.setParameter("nomeUtente", nomeUtente).getResultList();
 		long totale = getTotalePartite(nomeUtente);
 		int counter = 0;
 		for (int i = 0; i < listaPosizioni.size(); i++) {
-			if(listaPosizioni.get(i) < 5) {
-				counter ++;
+			if (listaPosizioni.get(i) < 5) {
+				counter++;
 			}
-		} 
-		if(totale== 0) {
-			return 0;}
-		int top4 = counter*100 / (int) totale;
+		}
+		if (totale == 0) {
+			return 0;
+		}
+		int top4 = counter * 100 / (int) totale;
 		return top4;
-		
+
 	}
+
 	public int getWin(String nomeUtente) {
-		List<Integer> listaPosizioni = em.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.nomeUtente = :nomeUtente", Integer.class).setParameter("nomeUtente", nomeUtente).getResultList();
-	
+		List<Integer> listaPosizioni = em
+				.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.nomeUtente = :nomeUtente", Integer.class)
+				.setParameter("nomeUtente", nomeUtente).getResultList();
+
 		int counter = 0;
 		for (int i = 0; i < listaPosizioni.size(); i++) {
-			if(listaPosizioni.get(i) == 1) {
-				counter ++;
+			if (listaPosizioni.get(i) == 1) {
+				counter++;
 			}
-		} 
-		
+		}
+
 		return counter;
-		
+
 	}
+
 	public int getTop4Eroe(String nomeEroe) {
-		List<Integer> listaPosizioni = em.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe", Integer.class).setParameter("eroe", nomeEroe).getResultList();
+		List<Integer> listaPosizioni = em
+				.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe", Integer.class)
+				.setParameter("eroe", nomeEroe).getResultList();
 		long totale = getTotalePartiteEroe(nomeEroe);
 		int counter = 0;
 		for (int i = 0; i < listaPosizioni.size(); i++) {
-			if(listaPosizioni.get(i) < 5) {
-				counter ++;
+			if (listaPosizioni.get(i) < 5) {
+				counter++;
 			}
-		} 
-		if(totale== 0) {
-			return 0;}
-		
-		int top4 = counter*100 / (int) totale;
-		return top4 ;
-		
+		}
+		if (totale == 0) {
+			return 0;
+		}
+
+		int top4 = counter * 100 / (int) totale;
+		return top4;
+
 	}
+
 	public int getWinEroe(String eroe) {
-		List<Integer> listaPosizioni = em.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe", Integer.class).setParameter("eroe", eroe).getResultList();
-	
+		List<Integer> listaPosizioni = em
+				.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe", Integer.class)
+				.setParameter("eroe", eroe).getResultList();
+
 		int counter = 0;
 		for (int i = 0; i < listaPosizioni.size(); i++) {
-			if(listaPosizioni.get(i) == 1) {
-				counter ++;
+			if (listaPosizioni.get(i) == 1) {
+				counter++;
 			}
-		} 
-		
+		}
+
 		return counter;
+
+	}
+
+	public void eliminaEroe(String nome) {
+		Query query = em.createQuery("SELECT e FROM Eroe e WHERE e.nome = :nome ", Eroe.class);
+		query.setParameter("nome", nome);
+		Eroe e = (Eroe) query.getSingleResult();
+		 em.getTransaction().begin();
+		  em.remove(e);
+		  em.getTransaction().commit();
+		//Query query = em.createQuery("DELETE FROM Eroe e WHERE e.nome = :nome", Eroe.class);
+				//query.executeUpdate();
 		
 	}
-	
+	public void eliminaComp(String nome) {
+		Query query = em.createQuery("SELECT c FROM Comp c WHERE c.nome = :nome ", Comp.class);
+		query.setParameter("nome", nome);
+		Comp c = (Comp) query.getSingleResult();
+		 em.getTransaction().begin();
+		  em.remove(c);
+		  em.getTransaction().commit();
+		
+	}
+
+	/*public void modificaEroe(String nome, Part image, String heroDescrizione, int heroPower, String nomeVecchio)
+			throws IOException {
+		Eroe e;
+
+		Query query = em.createQuery("SELECT e FROM Eroe e WHERE e.nome = :nome ", Eroe.class);
+		query.setParameter("nome", nomeVecchio);
+		e = (Eroe) query.getSingleResult();
+		InputStream f = image.getInputStream();
+		byte[] imageBytes = new byte[(int) image.getSize()];
+		f.read(imageBytes, 0, imageBytes.length);
+		f.close();
+		String imageStr = Base64.getEncoder().encodeToString(imageBytes);
+		em.getTransaction().begin();
+		e.setNome(nome);
+		e.setImmagine(imageStr);
+		e.setHeroDescrizione(heroDescrizione);
+		e.setHeroPower(heroPower);
+		em.getTransaction().commit();
+	}*/
+
 }
