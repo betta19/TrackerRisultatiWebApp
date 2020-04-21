@@ -31,7 +31,7 @@ public class Registrazione extends HttpServlet {
 		EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
 		String mail = req.getParameter("mail");
 		String password = req.getParameter("password");
-		long ratingIniziale = Long.parseLong("ratingIniziale");
+		long ratingIniziale = Long.parseLong(req.getParameter("rating"));
 		Service s = new Service(emf);
 		
 		
