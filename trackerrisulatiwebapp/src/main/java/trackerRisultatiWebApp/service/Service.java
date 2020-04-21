@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -34,11 +35,12 @@ public class Service {
 		this.em.close();
 	}
 
-	public Utente getUtente(String mail) {
+	public Utente getUtente(String mail, String password) {
 		Utente u;
 
-		Query query = em.createQuery("SELECT u FROM Utente u WHERE u.mail = :mail ", Utente.class);
+		Query query = em.createQuery("SELECT u FROM Utente u WHERE u.mail = :mail AND u.password= :password ", Utente.class);
 		query.setParameter("mail", mail);
+		query.setParameter("password", password);
 
 		try {
 			u = (Utente) query.getSingleResult();
@@ -47,17 +49,6 @@ public class Service {
 		} catch (NoResultException e) {
 			return null;
 		}
-
-	}
-
-	public Utente controlloUtente(String mail, String password) {
-
-		Query query = em.createQuery("SELECT u FROM Utente u WHERE u.mail = :mail and u.password = :password ",
-				Utente.class);
-		query.setParameter("mail", mail);
-		query.setParameter("password", password);
-		Utente u = (Utente) query.getSingleResult();
-		return u;
 
 	}
 
@@ -310,24 +301,33 @@ public class Service {
 	}
 	}
 
-	public void eliminaEroe(String nome) {
+	public boolean eliminaEroe(String nome) {
+		try {
 		Query query = em.createQuery("SELECT e FROM Eroe e WHERE e.nome = :nome ", Eroe.class);
 		query.setParameter("nome", nome);
 		Eroe e = (Eroe) query.getSingleResult();
 		 em.getTransaction().begin();
 		  em.remove(e);
 		  em.getTransaction().commit();
-		//Query query = em.createQuery("DELETE FROM Eroe e WHERE e.nome = :nome", Eroe.class);
-				//query.executeUpdate();
+		  return true;
+		} catch (RollbackException e) {
+			return false;
+		}
+	
 		
 	}
-	public void eliminaComp(String nome) {
+	public boolean eliminaComp(String nome) {
+		try {
 		Query query = em.createQuery("SELECT c FROM Comp c WHERE c.nome = :nome ", Comp.class);
 		query.setParameter("nome", nome);
 		Comp c = (Comp) query.getSingleResult();
 		 em.getTransaction().begin();
 		  em.remove(c);
 		  em.getTransaction().commit();
+		  return true;
+				} catch (RollbackException e) {
+					return false;
+				}
 		
 	}
 public long calcoloCurrentRating (Utente ut) {
@@ -336,6 +336,35 @@ public long calcoloCurrentRating (Utente ut) {
 	for (int i = 0; i < listaPartite.size(); i++) {
 		ratingTotale += ut.getRatingIniziale() + listaPartite.get(i).getRating();
 	} return ratingTotale;
+	
+}
+
+public void modificaEroe(String nome, String nomeVecchio, Part image, String heroDescrizione, String heroPower) throws IOException {
+	
+	Eroe e =getEroe(nomeVecchio);
+	InputStream f = image.getInputStream();
+	byte[] imageBytes = new byte[(int) image.getSize()];
+	f.read(imageBytes, 0, imageBytes.length);
+	f.close();
+	String imageStr = Base64.getEncoder().encodeToString(imageBytes);
+
+	em.getTransaction().begin();
+	e.setNome(nome);
+	e.setImmagine(imageStr);
+	e.setHeroDescrizione(heroDescrizione);
+	e.setHeroPower(heroPower);
+	
+	em.getTransaction().commit();
+	
+}
+
+public void modificaComp(String nome, String nomeVecchioC) {
+Comp c = getComp(nomeVecchioC);
+
+em.getTransaction().begin();
+c.setNome(nome);
+em.getTransaction().commit();
+
 	
 }
 

@@ -38,7 +38,7 @@ public class AggiungiEroe extends HttpServlet {
 		Service s = new Service(emf);
 
 		try {
-Eroe eroe = s.checkNomeEroe(nome);
+			Eroe eroe = s.checkNomeEroe(nome);
 			if (eroe == null) {
 
 				s.salvaEroe(nome, image, heroDescrizione, heroPower);

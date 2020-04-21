@@ -28,7 +28,7 @@ public class Login extends HttpServlet{
 		HttpSession session = req.getSession();
 		Service s = new Service(emf);
 		
-		Utente ut = s.getUtente(mail);
+		Utente ut = s.getUtente(mail, pass);
 
 		 if (ut == null) {
 				req.setAttribute("mess", "mail o password errata. Riprova oppure REGISTRATI");

@@ -59,30 +59,49 @@ public class Admin extends HttpServlet {
 
 			resp.sendRedirect(req.getContextPath() + "/");
 		} else if (azione.equalsIgnoreCase("Elimina")) {
-			s.eliminaEroe(req.getParameter("nomeE"));
-			req.setAttribute("listaEroi", s.stampaListaEroi());
-			req.setAttribute("messaggio", "eroe eliminato con successo");
-			s.close();
-			req.getRequestDispatcher("/admin/listaEroiAdmin.jsp").forward(req, resp);
-		} else if (azione.equalsIgnoreCase("Modifica")) {
-			s.eliminaEroe(req.getParameter("nomeE"));
+			boolean eliminazione = s.eliminaEroe(req.getParameter("nomeE"));
+			if (eliminazione) {
+				
 			req.setAttribute("listaEroi", s.stampaListaEroi());
 			req.setAttribute("messaggio", "Eroe eliminato con successo");
 			s.close();
-			req.getRequestDispatcher("/admin/aggiungiEroe.jsp").forward(req, resp);
+			req.getRequestDispatcher("/admin/listaEroiAdmin.jsp").forward(req, resp);
+			}
+			else {
+				req.setAttribute("listaEroi", s.stampaListaEroi());
+				req.setAttribute("messaggio", "Un utente sta giocando con questo eroe, impossibile eliminarlo");
+				s.close();
+				req.getRequestDispatcher("/admin/listaEroiAdmin.jsp").forward(req, resp);
+			}
+		} else if (azione.equalsIgnoreCase("Modifica")) {
+			
+			req.setAttribute("eroi", s.getEroe(req.getParameter("nomeE")));
+		
+			s.close();
+			req.getRequestDispatcher("/admin/effettuaModificaEroe.jsp").forward(req, resp);
 		}
 
 		else if (azione.equalsIgnoreCase("Elimina Comp")) {
-			s.eliminaComp(req.getParameter("nomeC"));
-			req.setAttribute("messaggio", "Comp eliminata con successo");
+		boolean eliminaC=	s.eliminaComp(req.getParameter("nomeC"));
+		if (eliminaC) {
+			
+			req.setAttribute("messaggio", "Composizione eliminata con successo");
 			req.setAttribute("listaComp", s.stampaListaComp());
 			s.close();
 			req.getRequestDispatcher("/admin/listaComp.jsp").forward(req, resp);
-		} else if (azione.equalsIgnoreCase("Modifica Comp")) {
-			s.eliminaComp(req.getParameter("nomeC"));
+		}
+		else {
+			req.setAttribute("messaggio", "Un utente sta giocando con questa composizione, impossibile eliminarla");
 			req.setAttribute("listaComp", s.stampaListaComp());
 			s.close();
-			req.getRequestDispatcher("/admin/aggiungiComp.jsp").forward(req, resp);
+			req.getRequestDispatcher("/admin/listaComp.jsp").forward(req, resp);
+		}
+		} else if (azione.equalsIgnoreCase("Modifica Comp")) {
+			
+			req.setAttribute("comp",s.getComp(req.getParameter("nomeC")));
+			
+			s.close();
+			req.getRequestDispatcher("/admin/modificaComp.jsp").forward(req, resp);
 		}
 	}
 }

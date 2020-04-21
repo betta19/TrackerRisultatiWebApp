@@ -27,7 +27,7 @@
     <input type="text" class="form-control" id="heroDescrizione" name="heroDescrizione" style="width:250px; height:50px;margin:auto" placeholder="Hero Descrizione"> <br><p class="text-xl-center"> 
  <input type="file"  id="image" name="image" placeholder="Inserisci immagine hero">
  </p>
-   
+ 
 
 <br>
   <input type="submit"class="btn btn-outline-primary btn-block" style="width:150px; height:45px;margin:auto" name= action value="Modifica">
