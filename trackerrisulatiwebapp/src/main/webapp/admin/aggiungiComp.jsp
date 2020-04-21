@@ -12,6 +12,13 @@
 <title>Insert title here</title>
 </head>
 <body>
+<div class="container">
+		<div class="row">
+		<div class="col-xl align-self-center ">
+		<br><br><br>
+		</div></div>
+		<div class="row">
+		<div class="col-xl align-self-center ">
 	<hr>
 	<ol>
 		<c:forEach items="${listaComp}" var="singoloComp">
@@ -19,6 +26,8 @@
 		</c:forEach>
 	</ol>
 	<hr>
+	</div>
+	<div class="col-xl align-self-center ">
 	<form action="aggiungiComp" method="post" >
 
     <p class="text-xl-center">Inserisci nome</p>
@@ -34,5 +43,6 @@
 <form action="indietro" method="post">
   <input type="submit"  class="btn btn-outline-secondary btn-block" style="width:150px; height:50px;margin:auto" value="Torna Indietro">
 </form>
+</div></div></div>
 </body>
 </html>

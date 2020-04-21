@@ -30,8 +30,8 @@
 					<c:forEach items="${listaPartite}" var="singolaPartita">
 
 						<tr>
-							<td><c:out value="${singolaPartita.getEroe()}" /></td>
-							<td><c:out value="${singolaPartita.getComp()}" /></td>
+							<td><c:out value="${singolaPartita.getEroe().getNome()}" /></td>
+							<td><c:out value="${singolaPartita.getComp().getNome()}" /></td>
 							<td><c:out value="${singolaPartita.getPosizioneFinale()}" /></td>
 							<td><c:out value="${singolaPartita.getRating()}" /></td>
 							<td><c:out value="${singolaPartita.getNotePersonali()}" /></td>

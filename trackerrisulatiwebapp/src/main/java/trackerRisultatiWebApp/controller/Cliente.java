@@ -39,7 +39,7 @@ public class Cliente extends HttpServlet{
 			req.setAttribute("listaComp", s.stampaListaComp());
 			s.close();
 
-			req.getRequestDispatcher("/partita.jsp").forward(req, resp);
+			req.getRequestDispatcher("/cliente/partita.jsp").forward(req, resp);
 		}
 		
 		else if (azione.equalsIgnoreCase("Visualizza statistiche partita")) {
@@ -62,14 +62,14 @@ public class Cliente extends HttpServlet{
 			req.setAttribute("listaEroi", s.stampaListaEroi());
 			s.close();
 
-			req.getRequestDispatcher("/statistiche.jsp").forward(req, resp);
+			req.getRequestDispatcher("/cliente/statistiche.jsp").forward(req, resp);
 		} 
 		else if (azione.equalsIgnoreCase("Lista Eroi")) {
 
 			req.setAttribute("listaEroi", s.stampaListaEroi());
 			s.close();
 
-			req.getRequestDispatcher("/listaEroi.jsp").forward(req, resp);
+			req.getRequestDispatcher("/cliente/listaEroi.jsp").forward(req, resp);
 		}
 		else if (azione.equalsIgnoreCase("Vedi statistiche eroe")) {
            
@@ -93,7 +93,7 @@ public class Cliente extends HttpServlet{
 				req.setAttribute("eroe", nomeEroe);
 				req.setAttribute("listaEroi", s.stampaListaEroi());
 			s.close();
-			req.getRequestDispatcher("/statistiche.jsp").forward(req, resp);
+			req.getRequestDispatcher("/cliente/statistiche.jsp").forward(req, resp);
 		} 
 		else if (azione.equalsIgnoreCase("Logout")) {
 

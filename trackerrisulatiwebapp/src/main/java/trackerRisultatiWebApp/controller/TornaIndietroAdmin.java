@@ -13,7 +13,7 @@ public class TornaIndietroAdmin extends HttpServlet {
 	@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        resp.sendRedirect(req.getContextPath() + "/opzioniAdmin.jsp");
+        resp.sendRedirect(req.getContextPath() + "/admin/opzioniAdmin.jsp");
 
     }
 }

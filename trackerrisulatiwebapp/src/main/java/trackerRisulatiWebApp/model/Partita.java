@@ -12,9 +12,10 @@ public class Partita {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
-private String eroe;	
-private String comp;
+	@OneToOne
+private Eroe eroe;
+	@OneToOne
+private Comp comp;
 private int posizioneFinale;
 private String notePersonali;
 private int rating;
@@ -39,19 +40,21 @@ public void setId(long id) {
 	this.id = id;
 }
 
-public String getEroe() {
+
+
+public Eroe getEroe() {
 	return eroe;
 }
 
-public void setEroe(String eroe) {
+public void setEroe(Eroe eroe) {
 	this.eroe = eroe;
 }
 
-public String getComp() {
+public Comp getComp() {
 	return comp;
 }
 
-public void setComp(String comp) {
+public void setComp(Comp comp) {
 	this.comp = comp;
 }
 

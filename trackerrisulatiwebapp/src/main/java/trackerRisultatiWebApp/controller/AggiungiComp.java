@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import trackerRisulatiWebApp.model.Comp;
 import trackerRisultatiWebApp.service.Service;
 
-@WebServlet(name = "aggiungiComp", urlPatterns = "/admin/aggiungiComp")
+@WebServlet(urlPatterns = { "/admin/aggiungiComp", "/aggiungiComp" })
 public class AggiungiComp extends HttpServlet {
 @Override
 protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,7 +34,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
-	req.getRequestDispatcher("/aggiungiComp.jsp").forward(req, resp);
+	req.getRequestDispatcher("/admin/aggiungiComp.jsp").forward(req, resp);
 
 }
 	}

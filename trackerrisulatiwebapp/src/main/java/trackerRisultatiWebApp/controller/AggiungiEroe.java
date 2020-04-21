@@ -54,7 +54,7 @@ Eroe eroe = s.checkNomeEroe(nome);
 		}
 		
 		req.setAttribute("listaEroi", s.stampaListaEroi());s.close();
-		req.getRequestDispatcher("/aggiungiEroe.jsp").forward(req, resp);
+		req.getRequestDispatcher("/admin/aggiungiEroe.jsp").forward(req, resp);
 
 	}
 }

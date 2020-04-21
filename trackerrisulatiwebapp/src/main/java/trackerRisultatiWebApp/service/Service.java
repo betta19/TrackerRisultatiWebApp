@@ -191,8 +191,8 @@ public class Service {
 	public Partita salvaPartita(String nomeEroe, String nomeComp, int rank, String note, int punti, String nomeUtente) {
 		Partita p = new Partita();
 
-		p.setEroe(nomeEroe);
-		p.setComp(nomeComp);
+		p.setEroe(getEroe(nomeEroe));
+		p.setComp(getComp(nomeComp));
 		p.setPosizioneFinale(rank);
 		p.setNotePersonali(note);
 		p.setRating(punti);
@@ -221,9 +221,17 @@ public class Service {
 
 	public long getTotalePartiteEroe(String nomeEroe) {
 		TypedQuery<Long> query = em.createQuery("SELECT COUNT (p.id) FROM Partita p WHERE p.eroe = :eroe", Long.class);
-		query.setParameter("eroe", nomeEroe);
+		try {
+		Eroe e = getEroe(nomeEroe);
+			query.setParameter("eroe", e);
+			
+		
 		long totale = (long) query.getSingleResult();
 		return totale;
+		} catch(NoResultException e) {
+			return 0;
+		}
+		
 	}
 
 	public int getTop4(String nomeUtente) {
@@ -261,10 +269,11 @@ public class Service {
 
 	}
 
-	public int getTop4Eroe(String nomeEroe) {
+	public int getTop4Eroe(String nomeEroe) {try {
 		List<Integer> listaPosizioni = em
 				.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe", Integer.class)
-				.setParameter("eroe", nomeEroe).getResultList();
+				.setParameter("eroe",getEroe(nomeEroe)).getResultList();
+		
 		long totale = getTotalePartiteEroe(nomeEroe);
 		int counter = 0;
 		for (int i = 0; i < listaPosizioni.size(); i++) {
@@ -278,13 +287,15 @@ public class Service {
 
 		int top4 = counter * 100 / (int) totale;
 		return top4;
-
+	} catch(NoResultException e) {
+		return 0;
+	}
 	}
 
-	public int getWinEroe(String eroe) {
+	public int getWinEroe(String eroe) {try {
 		List<Integer> listaPosizioni = em
 				.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe", Integer.class)
-				.setParameter("eroe", eroe).getResultList();
+				.setParameter("eroe", getEroe(eroe)).getResultList();
 
 		int counter = 0;
 		for (int i = 0; i < listaPosizioni.size(); i++) {
@@ -294,7 +305,9 @@ public class Service {
 		}
 
 		return counter;
-
+	}catch(NoResultException e) {
+		return 0;
+	}
 	}
 
 	public void eliminaEroe(String nome) {

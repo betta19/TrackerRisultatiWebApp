@@ -37,7 +37,7 @@ public class Login extends HttpServlet{
 		}else if (ut.getTipo().equalsIgnoreCase("admin")) {
 	        	session.setAttribute("mail", ut.getMail());
 	        	session.setAttribute("tipo", ut.getTipo());
-				req.getRequestDispatcher("opzioniAdmin.jsp").forward(req, resp);
+				req.getRequestDispatcher("/admin/opzioniAdmin.jsp").forward(req, resp);
 
 			}  else {
 				if (!ut.isActive()) {
@@ -49,7 +49,7 @@ public class Login extends HttpServlet{
 					session.setAttribute("tipo", ut.getTipo());
 					session.setAttribute("utente", ut);
 					s.close();
-					req.getRequestDispatcher("opzioniCliente.jsp").forward(req, resp);
+					req.getRequestDispatcher("/cliente/opzioniCliente.jsp").forward(req, resp);
 				}
 			}
 	

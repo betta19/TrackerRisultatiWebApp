@@ -65,7 +65,7 @@ req.setAttribute("mess",
 	}
 
 	private String generaLinkValidazioneUtente(String mail) {
-		String validationPath = "http://localhost:8080/trackerrisulatiwebapp/validazione?mail=";
+		String validationPath = "http://localhost:8080/trackerrisultatiwebapp/validazione?mail=";
 		return "Per attivare la mail clicca su questo link: " + validationPath + mail;
 	}
 

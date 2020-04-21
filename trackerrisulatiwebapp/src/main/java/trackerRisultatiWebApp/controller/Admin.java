@@ -35,7 +35,7 @@ public class Admin extends HttpServlet {
 			req.setAttribute("listaEroi", s.stampaListaEroi());
 			s.close();
 
-			req.getRequestDispatcher("/aggiungiEroe.jsp").forward(req, resp);
+			req.getRequestDispatcher("/admin/aggiungiEroe.jsp").forward(req, resp);
 		}
 
 		else if (azione.equalsIgnoreCase("Aggiungi composizione")) {
@@ -43,13 +43,13 @@ public class Admin extends HttpServlet {
 			req.setAttribute("listaComp", s.stampaListaComp());
 			s.close();
 
-			req.getRequestDispatcher("/aggiungiComp.jsp").forward(req, resp);
+			req.getRequestDispatcher("/admin/aggiungiComp.jsp").forward(req, resp);
 		} else if (azione.equalsIgnoreCase("Gestione Eroe")) {
 			req.setAttribute("listaEroi", s.stampaListaEroi());
-			req.getRequestDispatcher("/listaEroiAdmin.jsp").forward(req, resp);
+			req.getRequestDispatcher("/admin/listaEroiAdmin.jsp").forward(req, resp);
 		} else if (azione.equalsIgnoreCase("Gestione Comp")) {
 			req.setAttribute("listaComp", s.stampaListaComp());
-			req.getRequestDispatcher("/listaComp.jsp").forward(req, resp);
+			req.getRequestDispatcher("/admin/listaComp.jsp").forward(req, resp);
 		}
 
 		else if (azione.equalsIgnoreCase("Logout")) {
@@ -63,13 +63,13 @@ public class Admin extends HttpServlet {
 			req.setAttribute("listaEroi", s.stampaListaEroi());
 			req.setAttribute("messaggio", "eroe eliminato con successo");
 			s.close();
-			req.getRequestDispatcher("/listaEroiAdmin.jsp").forward(req, resp);
+			req.getRequestDispatcher("/admin/listaEroiAdmin.jsp").forward(req, resp);
 		} else if (azione.equalsIgnoreCase("Modifica")) {
 			s.eliminaEroe(req.getParameter("nomeE"));
 			req.setAttribute("listaEroi", s.stampaListaEroi());
 			req.setAttribute("messaggio", "Eroe eliminato con successo");
 			s.close();
-			req.getRequestDispatcher("/aggiungiEroe.jsp").forward(req, resp);
+			req.getRequestDispatcher("/admin/aggiungiEroe.jsp").forward(req, resp);
 		}
 
 		else if (azione.equalsIgnoreCase("Elimina Comp")) {
@@ -77,12 +77,12 @@ public class Admin extends HttpServlet {
 			req.setAttribute("messaggio", "Comp eliminata con successo");
 			req.setAttribute("listaComp", s.stampaListaComp());
 			s.close();
-			req.getRequestDispatcher("/listaComp.jsp").forward(req, resp);
+			req.getRequestDispatcher("/admin/listaComp.jsp").forward(req, resp);
 		} else if (azione.equalsIgnoreCase("Modifica Comp")) {
 			s.eliminaComp(req.getParameter("nomeC"));
 			req.setAttribute("listaComp", s.stampaListaComp());
 			s.close();
-			req.getRequestDispatcher("/aggiungiComp.jsp").forward(req, resp);
+			req.getRequestDispatcher("/admin/aggiungiComp.jsp").forward(req, resp);
 		}
 	}
 }

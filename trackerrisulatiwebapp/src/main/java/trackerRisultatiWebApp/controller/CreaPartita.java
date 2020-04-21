@@ -35,7 +35,7 @@ public class CreaPartita extends HttpServlet {
 		req.setAttribute("mess", "Partita creata con successo!");
 
 		s.close();
-		req.getRequestDispatcher("/opzioniCliente.jsp").forward(req, resp);
+		req.getRequestDispatcher("/cliente/opzioniCliente.jsp").forward(req, resp);
 
 	}
 }

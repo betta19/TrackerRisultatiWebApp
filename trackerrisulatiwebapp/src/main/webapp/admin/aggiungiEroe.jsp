@@ -26,15 +26,32 @@
 	<%
 		}
 	%><br>
-	<hr>
-	<ol>
-		<c:forEach items="${listaEroi}" var="singoloEroe">
-			<li><c:out value="${singoloEroe.getNome()}" /></li>
-		</c:forEach>
-	</ol>
-	<hr>
 	<div class="container">
 		<div class="row">
+		<div class="col-xl align-self-center ">
+	<table class="table table-striped">
+
+					<tr>
+						<th>Nome</th>
+						<th>Immagine</th>
+						<th>Costo HeroPower</th>
+						<th>HeroPower</th>
+						
+					</tr>
+					<c:forEach items="${listaEroi}" var="singoloEroe">
+
+						<tr>
+							<td><c:out value="${singoloEroe.getNome()}" /></td>
+							<td><img
+								width="45" height="45" src="data:image/png;base64,<c:out value="${singoloEroe.getImmagine()}" />" > </td>
+							<td><c:out value="${singoloEroe.getHeroPower()}" /></td>
+							<td><c:out value="${singoloEroe.getHeroDescrizione()}" /></td>
+						
+						
+						</tr>
+					</c:forEach>
+				</table>
+	</div>
 			<div class="col-xl align-self-center ">
 	<form action="aggiungiEroe" method="post" enctype="multipart/form-data">
 

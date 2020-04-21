@@ -18,7 +18,7 @@ public class TornaIndietroCliente extends HttpServlet {
 		HttpSession session = req.getSession();
 		session.getAttribute("mail");
 		
-		resp.sendRedirect(req.getContextPath() + "/opzioniCliente.jsp");
+		resp.sendRedirect(req.getContextPath() + "/cliente/opzioniCliente.jsp");
 		
 }
 }
