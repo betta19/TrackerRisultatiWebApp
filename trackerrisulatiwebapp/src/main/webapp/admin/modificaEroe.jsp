@@ -25,6 +25,7 @@
  <br> 
   <p class="text-xl-center">Inserisci hero descrizione</p>
     <input type="text" class="form-control" id="heroDescrizione" name="heroDescrizione" style="width:250px; height:50px;margin:auto" placeholder="Hero Descrizione"> <br><p class="text-xl-center"> 
+ 
  <input type="file"  id="image" name="image" placeholder="Inserisci immagine hero">
  </p>
  

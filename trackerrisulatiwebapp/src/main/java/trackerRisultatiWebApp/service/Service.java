@@ -38,7 +38,8 @@ public class Service {
 	public Utente getUtente(String mail, String password) {
 		Utente u;
 
-		Query query = em.createQuery("SELECT u FROM Utente u WHERE u.mail = :mail AND u.password= :password ", Utente.class);
+		Query query = em.createQuery("SELECT u FROM Utente u WHERE u.mail = :mail AND u.password= :password ",
+				Utente.class);
 		query.setParameter("mail", mail);
 		query.setParameter("password", password);
 
@@ -213,16 +214,15 @@ public class Service {
 	public long getTotalePartiteEroe(String nomeEroe) {
 		TypedQuery<Long> query = em.createQuery("SELECT COUNT (p.id) FROM Partita p WHERE p.eroe = :eroe", Long.class);
 		try {
-		Eroe e = getEroe(nomeEroe);
+			Eroe e = getEroe(nomeEroe);
 			query.setParameter("eroe", e);
-			
-		
-		long totale = (long) query.getSingleResult();
-		return totale;
-		} catch(NoResultException e) {
+
+			long totale = (long) query.getSingleResult();
+			return totale;
+		} catch (NoResultException e) {
 			return 0;
 		}
-		
+
 	}
 
 	public int getTop4(String nomeUtente) {
@@ -260,112 +260,122 @@ public class Service {
 
 	}
 
-	public int getTop4Eroe(String nomeEroe) {try {
-		List<Integer> listaPosizioni = em
-				.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe", Integer.class)
-				.setParameter("eroe",getEroe(nomeEroe)).getResultList();
-		
-		long totale = getTotalePartiteEroe(nomeEroe);
-		int counter = 0;
-		for (int i = 0; i < listaPosizioni.size(); i++) {
-			if (listaPosizioni.get(i) < 5) {
-				counter++;
+	public int getTop4Eroe(String nomeEroe) {
+		try {
+			List<Integer> listaPosizioni = em
+					.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe", Integer.class)
+					.setParameter("eroe", getEroe(nomeEroe)).getResultList();
+
+			long totale = getTotalePartiteEroe(nomeEroe);
+			int counter = 0;
+			for (int i = 0; i < listaPosizioni.size(); i++) {
+				if (listaPosizioni.get(i) < 5) {
+					counter++;
+				}
 			}
-		}
-		if (totale == 0) {
+			if (totale == 0) {
+				return 0;
+			}
+
+			int top4 = counter * 100 / (int) totale;
+			return top4;
+		} catch (NoResultException e) {
 			return 0;
 		}
-
-		int top4 = counter * 100 / (int) totale;
-		return top4;
-	} catch(NoResultException e) {
-		return 0;
-	}
 	}
 
-	public int getWinEroe(String eroe) {try {
-		List<Integer> listaPosizioni = em
-				.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe", Integer.class)
-				.setParameter("eroe", getEroe(eroe)).getResultList();
+	public int getWinEroe(String eroe) {
+		try {
+			List<Integer> listaPosizioni = em
+					.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe", Integer.class)
+					.setParameter("eroe", getEroe(eroe)).getResultList();
 
-		int counter = 0;
-		for (int i = 0; i < listaPosizioni.size(); i++) {
-			if (listaPosizioni.get(i) == 1) {
-				counter++;
+			int counter = 0;
+			for (int i = 0; i < listaPosizioni.size(); i++) {
+				if (listaPosizioni.get(i) == 1) {
+					counter++;
+				}
 			}
-		}
 
-		return counter;
-	}catch(NoResultException e) {
-		return 0;
-	}
+			return counter;
+		} catch (NoResultException e) {
+			return 0;
+		}
 	}
 
 	public boolean eliminaEroe(String nome) {
 		try {
-		Query query = em.createQuery("SELECT e FROM Eroe e WHERE e.nome = :nome ", Eroe.class);
-		query.setParameter("nome", nome);
-		Eroe e = (Eroe) query.getSingleResult();
-		 em.getTransaction().begin();
-		  em.remove(e);
-		  em.getTransaction().commit();
-		  return true;
+			Query query = em.createQuery("SELECT e FROM Eroe e WHERE e.nome = :nome ", Eroe.class);
+			query.setParameter("nome", nome);
+			Eroe e = (Eroe) query.getSingleResult();
+			em.getTransaction().begin();
+			em.remove(e);
+			em.getTransaction().commit();
+			return true;
 		} catch (RollbackException e) {
 			return false;
 		}
-	
-		
+
 	}
+
 	public boolean eliminaComp(String nome) {
 		try {
-		Query query = em.createQuery("SELECT c FROM Comp c WHERE c.nome = :nome ", Comp.class);
-		query.setParameter("nome", nome);
-		Comp c = (Comp) query.getSingleResult();
-		 em.getTransaction().begin();
-		  em.remove(c);
-		  em.getTransaction().commit();
-		  return true;
-				} catch (RollbackException e) {
-					return false;
-				}
-		
+			Query query = em.createQuery("SELECT c FROM Comp c WHERE c.nome = :nome ", Comp.class);
+			query.setParameter("nome", nome);
+			Comp c = (Comp) query.getSingleResult();
+			em.getTransaction().begin();
+			em.remove(c);
+			em.getTransaction().commit();
+			return true;
+		} catch (RollbackException e) {
+			return false;
+		}
+
 	}
-public long calcoloCurrentRating (Utente ut) {
-	List <Partita> listaPartite  = em.createQuery("SELECT p FROM Partita p WHERE p.nomeUtente = :nomeUtente", Partita.class).setParameter("nomeUtente", ut.getMail()).getResultList();
-	long ratingTotale = 0;
-	for (int i = 0; i < listaPartite.size(); i++) {
-		ratingTotale += ut.getRatingIniziale() + listaPartite.get(i).getRating();
-	} return ratingTotale;
-	
-}
 
-public void modificaEroe(String nome, String nomeVecchio, Part image, String heroDescrizione, String heroPower) throws IOException {
-	
-	Eroe e =getEroe(nomeVecchio);
-	InputStream f = image.getInputStream();
-	byte[] imageBytes = new byte[(int) image.getSize()];
-	f.read(imageBytes, 0, imageBytes.length);
-	f.close();
-	String imageStr = Base64.getEncoder().encodeToString(imageBytes);
+	public long calcoloCurrentRating(Utente ut) {
+		List<Partita> listaPartite = em
+				.createQuery("SELECT p FROM Partita p WHERE p.nomeUtente = :nomeUtente", Partita.class)
+				.setParameter("nomeUtente", ut.getMail()).getResultList();
+		long ratingTotale = 0;
+		for (int i = 0; i < listaPartite.size(); i++) {
+			ratingTotale += ut.getRatingIniziale() + listaPartite.get(i).getRating();
+		}
+		return ratingTotale;
 
-	em.getTransaction().begin();
-	e.setNome(nome);
-	e.setImmagine(imageStr);
-	e.setHeroDescrizione(heroDescrizione);
-	e.setHeroPower(heroPower);
-	
-	em.getTransaction().commit();
-	
-}
+	}
 
-public void modificaComp(String nome, String nomeVecchioC) {
-Comp c = getComp(nomeVecchioC);
+	public void modificaEroe(String nome, String nomeVecchio, Part image, String heroDescrizione, String heroPower)
+			throws IOException {
 
-em.getTransaction().begin();
-c.setNome(nome);
-em.getTransaction().commit();
+		Eroe e = getEroe(nomeVecchio);
+		em.getTransaction().begin();
 
-	
-}
+		if (image.getSize() != 0) {
+
+			InputStream f = image.getInputStream();
+			byte[] imageBytes = new byte[(int) image.getSize()];
+			f.read(imageBytes, 0, imageBytes.length);
+			f.close();
+			String imageStr = Base64.getEncoder().encodeToString(imageBytes);
+			e.setImmagine(imageStr);
+		}
+
+		e.setNome(nome);
+		e.setHeroDescrizione(heroDescrizione);
+		e.setHeroPower(heroPower);
+
+		em.getTransaction().commit();
+
+	}
+
+	public void modificaComp(String nome, String nomeVecchioC) {
+		Comp c = getComp(nomeVecchioC);
+
+		em.getTransaction().begin();
+		c.setNome(nome);
+		em.getTransaction().commit();
+
+	}
 
 }
