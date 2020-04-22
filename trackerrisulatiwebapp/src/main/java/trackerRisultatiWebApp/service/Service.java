@@ -337,9 +337,9 @@ public class Service {
 		List<Partita> listaPartite = em
 				.createQuery("SELECT p FROM Partita p WHERE p.nomeUtente = :nomeUtente", Partita.class)
 				.setParameter("nomeUtente", ut.getMail()).getResultList();
-		long ratingTotale = 0;
+		long ratingTotale = ut.getRatingIniziale();
 		for (int i = 0; i < listaPartite.size(); i++) {
-			ratingTotale += ut.getRatingIniziale() + listaPartite.get(i).getRating();
+			ratingTotale  += listaPartite.get(i).getRating();
 		}
 		return ratingTotale;
 

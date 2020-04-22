@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" type="text/css" href="../style.css">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
@@ -12,124 +13,193 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<%
-		String nomeEroe = (String) request.getAttribute("eroe");
-	%>
-	<div class="container">
-		<div class="row">
-			<div class="col-xl align-self-center ">
-				<table class="table table-striped">
-
-					<tr>
-						<th>Eroe</th>
-						<th>Composizione</th>
-						<th>Rank</th>
-						<th>Punti</th>
-						<th>Note</th>
-					</tr>
-					<c:forEach items="${listaPartite}" var="singolaPartita">
+	<div class="bgtl">
+		<%
+			String nomeEroe = (String) request.getAttribute("eroe");
+		%>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<table class="table table-striped">
 
 						<tr>
-							<td><c:out value="${singolaPartita.getEroe().getNome()}" /></td>
-							<td><c:out value="${singolaPartita.getComp().getNome()}" /></td>
-							<td><c:out value="${singolaPartita.getPosizioneFinale()}" /></td>
-							<td><c:out value="${singolaPartita.getRating()}" /></td>
-							<td><c:out value="${singolaPartita.getNotePersonali()}" /></td>
+							<th><h5>
+									<p class="text-md text-warning">Eroe</p>
+								</h5></th>
+							<th><h5>
+									<p class="text-md text-warning">Composizione</p>
+								</h5></th>
+							<th><h5>
+									<p class="text-md text-warning">Classifica</p>
+								</h5></th>
+							<th><h5>
+									<p class="text-md text-warning">Punti</p>
+								</h5></th>
+							<th><h5>
+									<p class="text-md text-warning">Note</p>
+								</h5></th>
 						</tr>
-					</c:forEach>
-				</table>
-			</div>
-			<div class="col-xl align-self-center ">
-				<table class="table table-striped">
+						<c:forEach items="${listaPartite}" var="singolaPartita">
 
-					<tr>
-						<th>Totale Partite giocate</th>
-						<th>Percentuale Top 4</th>
-						<th>Vittorie</th>
-					</tr>
+							<tr>
+								<td><h5>
+										<p class="text-md text-white">${singolaPartita.getEroe().getNome()}</p>
+									</h5></td>
+								<td><h5>
+										<p class="text-md text-white">${singolaPartita.getComp().getNome()}</p>
+									</h5></td>
+								<td><h5>
+										<p class="text-md text-white">${singolaPartita.getPosizioneFinale()}</p>
+									</h5></td>
+								<td><h5>
+										<p class="text-md text-white">${singolaPartita.getRating()}</p>
+									</h5></td>
+								<td><h5>
+										<p class="text-md text-white">${singolaPartita.getNotePersonali()}</p>
+									</h5></td>
+							</tr>
+						</c:forEach>
+					</table>
+				</div>
+				<div class="col">
+					<br> <br>
+					<br> <br>
+					<table class="table table-striped">
+
+						<tr>
+							<th><h5>
+									<p class="text-md text-warning">Totale partite giocate</p>
+								</h5></th>
+							<th><h5>
+									<p class="text-md text-warning">% Top 4</p>
+								</h5></th>
+							<th><h5>
+									<p class="text-md text-warning">Vittorie</p>
+								</h5></th>
+						</tr>
 
 
-					<tr>
-						<td><%=(long) request.getAttribute("totale")%></td>
-						<td><%=(int) request.getAttribute("top4")%>%</td>
-						<td><%=(int) request.getAttribute("win")%></td>
-					</tr>
+						<tr>
+							<td><h5>
+									<p class="text-md text-white"><%=(long) request.getAttribute("totale")%></p>
+								</h5></td>
+							<td><h5>
+									<p class="text-md text-white"><%=(int) request.getAttribute("top4")%>%
+									</p>
+								</h5></td>
+							<td><h5>
+									<p class="text-md text-white"><%=(int) request.getAttribute("win")%></p>
+								</h5></td>
+						</tr>
 
-				</table>
-				<form action="gestioneCliente" method="post">
-					<div class="input-group input-group-sm mb-3">
-						<div class="input-group-prepend">
-							<span class="input-group-text" id="inputGroup-sizing-sm"><label
-								for="eroe">Eroe</label></span> <select name="eroe">
+					</table>
 
-								<c:forEach items="${listaEroi}" var="singoloEroe">
-									<c:out value="${singoloEroe.getNome()}" />
-									<option value="${singoloEroe.getNome()}">
-										${singoloEroe.getNome()}</option>
-								</c:forEach>
+					<table class="table table-striped">
+
+						<tr>
+							<th><h5>
+									<p class="text-md text-warning">Rating Iniziale</p>
+								</h5></th>
+							<th><h5>
+									<p class="text-md text-warning">Rating Attuale</p>
+								</h5></th>
+
+						</tr>
 
 
-							</select> <br> <br>
+						<tr>
+
+							<td><h5>
+									<p class="text-md text-white"><%=(long) request.getAttribute("ratingIniziale")%></p>
+								</h5></td>
+								<td><h5>
+									<p class="text-md text-white"><%=(long) request.getAttribute("currentRating")%></p>
+								</h5></td>
+							
+
+						</tr>
+
+					</table>
+					<br> <br>
+					<br> <br>
+					<form action="gestioneCliente" method="post">
+						<div class="input-group input-group-sm mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="inputGroup-sizing-sm"><label
+									for="eroe">Eroe</label></span> <select name="eroe">
+
+									<c:forEach items="${listaEroi}" var="singoloEroe">
+										<c:out value="${singoloEroe.getNome()}" />
+										<option value="${singoloEroe.getNome()}">
+											${singoloEroe.getNome()}</option>
+									</c:forEach>
+
+
+								</select> <br> <br>
+							</div>
 						</div>
-					</div>
-					<input type="submit" class="btn btn-outline-primary btn-block"
-						style="width: 150px; height: 40px; margin: auto" name="azione"
-						value="Vedi statistiche eroe">
-				</form>
-				<table class="table table-striped">
+						<input type="submit" class="btn btn-warning"
+							style="width: 250px; height: 40px; margin: auto" name="azione"
+							value="Vedi statistiche eroe">
+					</form>
+					<br> <br>
+					<table class="table table-striped">
 
-					<tr>
-						<th>Nome Eroe</th>
-						<th>Totale Partite giocate</th>
-						<th>Percentuale Top 4</th>
-						<th>Vittorie</th>
-					</tr>
-
-
-					<tr>
-						<%
-							if (nomeEroe == null) {
-						%>
-						<td>Scegli eroe</td>
-						<%
-							}
-							else {
-						%>
-						<td><%=nomeEroe%></td>
-						<%
-							}
-						%>
-						<td><%=(long) request.getAttribute("totaleEroe")%></td>
-						<td><%=(int) request.getAttribute("top4Eroe")%>%</td>
-						<td><%=(int) request.getAttribute("winEroe")%></td>
-					</tr>
-
-				</table>
-<table class="table table-striped">
-
-					<tr>
-						<th>Rating Iniziale</th>
-						<th>Rating attuale</th>
-						
-					</tr>
+						<tr>
+							<th><h5>
+									<p class="text-md text-warning">Nome Eroe</p>
+								</h5></th>
+							<th><h5>
+									<p class="text-md text-warning">Totale partite giocate</p>
+								</h5></th>
+							<th><h5>
+									<p class="text-md text-warning">% Top 4</p>
+								</h5></th>
+							<th><h5>
+									<p class="text-md text-warning">Vittorie</p>
+								</h5></th>
+						</tr>
 
 
-					<tr>
-					
-						<td><%=(long) request.getAttribute("ratingIniziale")%></td>
-						<td><%=(long) request.getAttribute("currentRating")%></td>
-					
-					</tr>
+						<tr>
+							<%
+								if (nomeEroe == null) {
+							%>
+							<td><h5>
+									<p class="text-md text-white">Scegli un Eroe</p>
+								</h5></td>
+							<%
+								} else {
+							%>
+							<td><h5>
+									<p class="text-md text-white"><%=nomeEroe%></p>
+								</h5></td>
+							<%
+								}
+							%>
+							<td><h5>
+									<p class="text-md text-white"><%=(long) request.getAttribute("totaleEroe")%></p>
+								</h5></td>
+						<td><h5>
+									<p class="text-md text-white"><%=(int) request.getAttribute("top4Eroe")%>%</p>
+								</h5></td>
+							<td><h5>
+									<p class="text-md text-white"><%=(int) request.getAttribute("winEroe")%></p>
+								</h5></td>
+							
+						</tr>
 
-				</table>
+					</table>
+
+					<form action="tornaIndietro" method="post">
+						<input type="submit" class="btn btn-primary btn-block"
+							style="width: 150px; height: 50px; margin: auto"
+							value="Torna Indietro">
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
-	<form action="tornaIndietro" method="post">
-		<input type="submit" class="btn btn-outline-secondary btn-block"
-			style="width: 150px; height: 50px; margin: auto"
-			value="Torna Indietro">
-	</form>
 
 </body>
 </html>

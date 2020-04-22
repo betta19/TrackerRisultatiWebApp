@@ -1,0 +1,30 @@
+body, html {
+  height: 100%;
+}
+.bg {
+  /* The image used */
+  background-image: url("Amazing-Hearthstone-Heroes-of-Warcraft-Wallpaper.png");
+  
+
+  /* Full height */
+  min-height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.bgtl {
+  /* The image used */
+  background-image: url("153610-hearthstone-background-2048x1152-for-iphone.jpg");
+  
+
+  /* Full height */
+  min-height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+ 
+}
