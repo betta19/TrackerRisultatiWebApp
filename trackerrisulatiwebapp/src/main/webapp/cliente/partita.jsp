@@ -32,7 +32,7 @@
 					%>
 					<form action="creaPartita" method="post">
 						<div class="input-group input-group-sm mb-3">
-							<div class="input-group-prepend ">
+							<div class="input-group-prepend">
 								<span class="input-group-text" id="inputGroup-sizing-sm"><label
 									for="eroe">Eroe</label></span> <select name="eroe">
 
