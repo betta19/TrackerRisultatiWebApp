@@ -55,14 +55,14 @@ public class Service {
 
 	public List<Eroe> stampaListaEroi() {
 
-		List<Eroe> lista = em.createQuery("SELECT e FROM Eroe e", Eroe.class).getResultList();
+		List<Eroe> lista = em.createQuery("SELECT e FROM Eroe e ORDER BY e.nome", Eroe.class).getResultList();
 		return lista;
 
 	}
 
 	public List<Comp> stampaListaComp() {
 
-		List<Comp> lista = em.createQuery("SELECT c FROM Comp c", Comp.class).getResultList();
+		List<Comp> lista = em.createQuery("SELECT c FROM Comp c ORDER BY c.nome", Comp.class).getResultList();
 		return lista;
 	}
 
