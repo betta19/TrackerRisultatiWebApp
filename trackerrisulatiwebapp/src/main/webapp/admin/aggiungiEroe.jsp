@@ -4,6 +4,7 @@
 
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" type="text/css" href="../style.css">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
@@ -13,13 +14,14 @@
 <title>Insert title here</title>
 </head>
 <body>
+<div class="bgtl">
 	<br>
 	<%
 		String mess = (String) request.getAttribute("mess");
 		if (mess != null) {
 	%>
 	<h4>
-		<p class="text-md-center text-danger"><%=mess%></p>
+		<p class="text-md-center text-white"><%=mess%></p>
 	</h4>
 
 
@@ -28,41 +30,58 @@
 	%><br>
 	<div class="container">
 		<div class="row">
-		<div class="col-xl align-self-center ">
+		<div class="col-6 align-self-center ">
 	<table class="table table-striped">
 
-					<tr>
-						<th>Nome</th>
-						<th>Immagine</th>
-						<th>Costo HeroPower</th>
-						<th>HeroPower</th>
+					
+						<tr>
+				<th><h5>
+						<p class="text-md text-warning">Nome</p>
+					</h5></th>
+				<th><h5>
+						<p class="text-md text-warning">Immagine</p>
+					</h5></th>
+				<th><h5>
+						<p class="text-md text-warning">Costo Hero Power</p>
+					</h5></th>
+				<th><h5>
+						<p class="text-md text-warning">Hero Power</p>
+					</h5></th>
+
+			</tr>
 						
-					</tr>
+					
 					<c:forEach items="${listaEroi}" var="singoloEroe">
 
 						<tr>
-							<td><c:out value="${singoloEroe.getNome()}" /></td>
-							<td><img
-								width="45" height="45" src="data:image/png;base64,<c:out value="${singoloEroe.getImmagine()}" />" > </td>
-							<td><c:out value="${singoloEroe.getHeroPower()}" /></td>
-							<td><c:out value="${singoloEroe.getHeroDescrizione()}" /></td>
-						
-						
-						</tr>
+					<td><h5>
+							<p class="text-md text-white">${singoloEroe.getNome()}</p>
+						</h5></td>
+					<td><img width="120" height="120"
+						src="data:image/png;base64,<c:out value="${singoloEroe.getImmagine()}" />">
+					</td>
+					<td><h5>
+							<p class="text-md text-white">${singoloEroe.getHeroPower()}</p>
+						</h5></td>
+					<td><h5>
+							<p class="text-md text-white">${singoloEroe.getHeroDescrizione()}</p>
+						</h5></td>
+
+
+				</tr>
 					</c:forEach>
 				</table>
 	</div>
-			<div class="col-xl align-self-center ">
+	<div class="col-2 align-self-center ">
+	</div>
+			<div class="col-4 align-self-center ">
 	<form action="aggiungiEroe" method="post" enctype="multipart/form-data">
 
-		<p class="text-xl-center">Inserisci nome</p>
+		<h5><p class="text-xl text-warning">Nome Eroe</p></h5>
 		<input type="text" class="form-control" id="nome" name="nome"
-			style="width: 250px; height: 50px; margin: auto" placeholder="Nome">
-		<br>
-		<div class="input-group input-group-sm mb-3" >
-			<div class="input-group-prepend">
-				<span class="input-group-text" id="inputGroup-sizing-sm" ><label
-					for="rank">Inserisci hero power</label></span> <select name="heroPower" >
+			style="width: 250px; height: 50px; display: inline-block " placeholder="Nome">
+		<br><br>	<h5><p class="text-xl text-warning">Costo Hero Power</p></h5>
+		 <select name="heroPower"  >
 
 
 
@@ -74,23 +93,25 @@
 
 
 				</select> <br> <br>
-			</div>
-		</div>
-		<br>
-		<p class="text-xl-center">Inserisci hero descrizione</p>
+		
+		
+			<h5><p class="text-xl text-warning">Descrizione Hero Power</p></h5>
 		<input type="text" class="form-control" id="heroDescrizione"
 			name="heroDescrizione"
-			style="width: 250px; height: 50px; margin: auto"
-			placeholder="Hero Power"> <br>
-		<p class="text-xl-center">
-			<input type="file" id="image" name="image"
-				placeholder="Inserisci immagine hero">
+			style="width: 250px; height: 50px; display:inline-block"
+			placeholder="Hero Power"> <br><br><br>
+		<p class="text-xl">
+		<label for="file-upload" class="custom-file-upload">
+  Carica Immagine
+</label>  <input  type="file" id="file-upload" name="image">
+
+			
 		</p>
 
-
+<br>
 		<br> <input type="submit"
-			class="btn btn-outline-primary btn-block"
-			style="width: 150px; height: 45px; margin: auto" name=action
+			class="btn btn-warning btn-block"
+			style="width: 150px; height: 45px;" name=action
 			value="Aggiungi">
 
 
@@ -98,14 +119,15 @@
 	
 	
 	<br>
-	<br>
+	
 
 
 	<form action="indietro" method="post">
-		<input type="submit" class="btn btn-outline-secondary btn-block"
-			style="width: 150px; height: 50px; margin: auto"
+		<input type="submit" class="btn btn-primary btn-block"
+			style="width: 150px; height: 50px; "
 			value="Torna Indietro">
 	</form>
+	</div>
 	</div>
 	</div>
 	</div>

@@ -123,10 +123,7 @@
 					<br> <br>
 					<br> <br>
 					<form action="gestioneCliente" method="post">
-						<div class="input-group input-group-sm mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="inputGroup-sizing-sm"><label
-									for="eroe">Eroe</label></span> <select name="eroe">
+						 <select name="eroe">
 
 									<c:forEach items="${listaEroi}" var="singoloEroe">
 										<c:out value="${singoloEroe.getNome()}" />
@@ -136,8 +133,7 @@
 
 
 								</select> <br> <br>
-							</div>
-						</div>
+							
 						<input type="submit" class="btn btn-warning"
 							style="width: 250px; height: 40px; margin: auto" name="azione"
 							value="Vedi statistiche eroe">

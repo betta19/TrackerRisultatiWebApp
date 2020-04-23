@@ -14,7 +14,7 @@
 </head>
 <body>
 	<div class="bgtl">
-	<br> <br><br> <br><br> <br><br> <br> <br><br>
+	<br> <br><br> <br>
 		<div class="container">
 			<div class="row no-gutters">
 				<div class="col-5">
@@ -25,16 +25,14 @@
 						if (messaggio != null) {
 					%>
 
-					<p class="text-md-center text-white"><%=messaggio%></p>
+					<h5><p class="text-md text-white"><%=messaggio%></p></h5>
 
 					<%
 						}
 					%>
 					<form action="creaPartita" method="post">
-						<div class="input-group input-group-sm mb-3" style= "bg-warning">
-							<div class="input-group-prepend" >
-								<span class="input-group-text" id="inputGroup-sizing-sm"><label
-									for="eroe">Eroe</label></span> <select name="eroe">
+					<h5><p class="text-md text-warning">Eroe</p></h5>
+						 <select name="eroe">
 
 									<c:forEach items="${listaEroi}" var="singoloEroe">
 										<c:out value="${singoloEroe.getNome()}" />
@@ -43,13 +41,9 @@
 
 									</c:forEach>
 
-								</select> <br> <br>
-							</div>
-						</div>
-						<div class="input-group input-group-sm mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="inputGroup-sizing-sm"><label
-									for="comp">Composizione</label></span> <select name="comp">
+								</select> <br><br>
+						<h5><p class="text-md text-warning">Composizione</p></h5>	
+						 <select name="comp">
 
 									<c:forEach items="${listaComp}" var="singolaComp">
 										<c:out value="${singolaComp.getNome()}" />
@@ -59,12 +53,8 @@
 									</c:forEach>
 
 								</select> <br> <br>
-							</div>
-						</div>
-						<div class="input-group input-group-sm mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="inputGroup-sizing-sm"><label
-									for="rank">Rank</label></span> <select name="rank">
+							<h5><p class="text-md text-warning">Posizione</p></h5>
+					 <select name="rank">
 
 
 									<%
@@ -77,15 +67,13 @@
 										}
 									%>
 
-								</select> <br> <br>
-							</div>
-						</div>
-
+								</select> <br> <br> 
+						<h5><p class="text-md text-warning">Note</p></h5>
 						<input type="text" class="form-control" id="note" name="note"
-							style="width: 250px; height: 50px" placeholder="Annotazioni">
-						<br>  <input type="number" class="form-control"
-							id="punti" name="punti" style="width: 250px; height: 50px"
-							placeholder="Punti partita"> <br> <input
+							style="width: 250px; height: 50px; display: inline-block;" placeholder="Annotazioni">
+						<br>  <br><h5><p class="text-md text-warning">Punti guadagnati/persi</p></h5> <input type="number" class="form-control"
+							id="punti" name="punti" style="width: 250px; height: 50px; display: inline-block;"
+							placeholder="Punti partita"> <br><br> <br> <input
 							type="submit" class="btn btn-warning"
 							style="width: 200px; height: 60px; margin: auto" name="azione"
 							value="Aggiungi">

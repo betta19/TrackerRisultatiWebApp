@@ -39,8 +39,8 @@
 		<form action="login" method="post">
 			<div class="login">
 				<h4><p class="text-xl-center text-warning">Inserisci la tua mail</p></h4>
-				<input type="text" class="form-control" id="mail" name="mail"
-					style="width: 250px; height: 50px; margin: auto" placeholder="Mail">
+				<input type="text" class="form-control" id="mail" name="mail"style="width: 250px; height: 50px; margin: auto"
+					 placeholder="Mail">
 					<br>
 				<h4><p class="text-xl-center text-warning">Inserisci la tua password</p></h4>
 				<input type="password" class="form-control " id="password"

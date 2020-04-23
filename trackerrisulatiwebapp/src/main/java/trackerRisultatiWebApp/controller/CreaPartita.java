@@ -28,14 +28,21 @@ public class CreaPartita extends HttpServlet {
 		HttpSession session = req.getSession();
 		Service s = new Service(emf);
 		int rank = Integer.parseInt(req.getParameter("rank"));
-		int punti = Integer.parseInt(req.getParameter("punti"));
-		Utente u = (Utente) session.getAttribute("utente");
-		s.salvaPartita(req.getParameter("eroe"), req.getParameter("comp"), rank, req.getParameter("note"), punti,
-				u.getMail());
-		req.setAttribute("mess", "Partita creata con successo!");
-
-		s.close();
-		req.getRequestDispatcher("/cliente/opzioniCliente.jsp").forward(req, resp);
-
+		try {
+				int punti = Integer.parseInt(req.getParameter("punti"));
+				Utente u = (Utente) session.getAttribute("utente");
+				s.salvaPartita(req.getParameter("eroe"), req.getParameter("comp"), rank, req.getParameter("note"), punti,
+						u.getMail());
+				req.setAttribute("mess", "Partita creata con successo!");
+				s.close();
+				req.getRequestDispatcher("/cliente/opzioniCliente.jsp").forward(req, resp);	
+		} catch (NumberFormatException e) {
+			req.setAttribute("mess", "Impossibile creare senza impostare il punteggio");
+			req.setAttribute("listaEroi", s.stampaListaEroi());
+			req.setAttribute("listaComp", s.stampaListaComp());
+				s.close();
+				req.getRequestDispatcher("/cliente/partita.jsp").forward(req, resp);
+		}
+		
 	}
 }

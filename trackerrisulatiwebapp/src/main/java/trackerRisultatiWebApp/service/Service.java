@@ -139,6 +139,17 @@ public class Service {
 			return null;
 		}
 
+	}	public Comp checkNomeComp(String nome) {
+
+		Query query = em.createQuery("SELECT c FROM Comp c WHERE c.nome = :nome", Comp.class);
+		query.setParameter("nome", nome);
+		try {
+			Comp comp = (Comp) query.getSingleResult();
+			return comp;
+		} catch (NoResultException e) {
+			return null;
+		}
+
 	}
 
 	public Comp salvaComp(String nome) {

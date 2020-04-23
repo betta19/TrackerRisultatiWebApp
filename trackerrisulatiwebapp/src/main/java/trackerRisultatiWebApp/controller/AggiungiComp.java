@@ -27,7 +27,14 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 	Service s;
 	try {
 		s = new Service(emf);
-		s.salvaComp(nome);
+		Comp comp = s.checkNomeComp(nome);
+		if(comp == null) {
+			s.salvaComp(nome);
+			req.setAttribute("mess", "Composizione aggiunta!");
+		} else {
+			req.setAttribute("mess", "Composizione già esistente!");
+		}
+		
 		
 		req.setAttribute("listaComp", s.stampaListaComp());
 		s.close();

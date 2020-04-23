@@ -32,7 +32,7 @@
 					if (messaggio != null) {
 				%>
 
-				<p class="text-md-center text-warning"><%=messaggio%></p>
+				<h5><p class="text-md-center text-warning"><%=messaggio%></p></h5>
 
 				<%
 					}
