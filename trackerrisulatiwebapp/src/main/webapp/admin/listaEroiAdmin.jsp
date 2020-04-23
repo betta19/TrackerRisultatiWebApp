@@ -43,7 +43,7 @@
 
 							<tr>
 								<td><h5><p class="text-md text-white"><c:out value="${singoloEroe.getNome()}" /></p></h5></td>
-								<td><img width="45" height="45"
+								<td><img width="45" height="60"
 									src="data:image/png;base64,<c:out value="${singoloEroe.getImmagine()}" />">
 								</td>
 								<td><h5><p class="text-md text-white"><c:out value="${singoloEroe.getHeroPower()}" /></p></h5></td>

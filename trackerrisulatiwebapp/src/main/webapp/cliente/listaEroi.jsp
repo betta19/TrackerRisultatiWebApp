@@ -37,7 +37,7 @@
 					<td><h5>
 							<p class="text-md text-white">${singoloEroe.getNome()}</p>
 						</h5></td>
-					<td><img width="120" height="120"
+					<td><img width="120" height="150"
 						src="data:image/png;base64,<c:out value="${singoloEroe.getImmagine()}" />">
 					</td>
 					<td><h5>

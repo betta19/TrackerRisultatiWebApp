@@ -17,7 +17,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-8 align-self-center ">
-					<img width="400" height="400"
+					<img width="400" height="500"
 						src="data:image/png;base64,<c:out value="${eroi.getImmagine()}" />">
 				</div>
 				<div class="col-4">
