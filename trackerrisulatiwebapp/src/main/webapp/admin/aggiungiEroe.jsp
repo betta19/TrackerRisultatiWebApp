@@ -74,7 +74,7 @@
 	</div>
 	<div class="col-2 align-self-center ">
 	</div>
-			<div class="col-4 align-self-center ">
+			<div class="col-4">
 	<form action="aggiungiEroe" method="post" enctype="multipart/form-data">
 
 		<h5><p class="text-xl text-warning">Nome Eroe</p></h5>
