@@ -38,6 +38,9 @@
 							<th><h5>
 									<p class="text-md text-warning">Note</p>
 								</h5></th>
+								<th><h5>
+									<p class="text-md text-warning">Data</p>
+								</h5></th>
 						</tr>
 						<c:forEach items="${listaPartite}" var="singolaPartita">
 
@@ -56,6 +59,9 @@
 									</h5></td>
 								<td><h5>
 										<p class="text-md text-white">${singolaPartita.getNotePersonali()}</p>
+									</h5></td>
+									<td><h5>
+										<p class="text-md text-white">${singolaPartita.getData()}</p>
 									</h5></td>
 							</tr>
 						</c:forEach>

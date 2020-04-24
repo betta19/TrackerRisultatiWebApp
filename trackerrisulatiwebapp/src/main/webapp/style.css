@@ -7,12 +7,13 @@ body, html {
   
 
   /* Full height */
-  min-height: 100%;
+  height: 100%;
 
   /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
 }
 .bgtl {
   /* The image used */
@@ -20,13 +21,13 @@ body, html {
   
 
   /* Full height */
-  min-height: 100%;
+  height: 100%;
 
   /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
- 
+ background-attachment: fixed;
 }
 select{
   width: 200px;

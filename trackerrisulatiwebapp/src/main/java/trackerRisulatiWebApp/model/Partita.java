@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Partita {
@@ -19,9 +21,17 @@ private int posizioneFinale;
 private String notePersonali;
 private int rating;
 private String nomeUtente;
-
+private String data;
 public Partita() {
 	
+}
+
+public String getData() {
+	return data;
+}
+
+public void setData(String data) {
+	this.data = data;
 }
 
 public String getNomeUtente() {

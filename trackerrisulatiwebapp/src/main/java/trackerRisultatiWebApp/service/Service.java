@@ -4,8 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -193,13 +197,16 @@ public class Service {
 
 	public Partita salvaPartita(String nomeEroe, String nomeComp, int rank, String note, int punti, String nomeUtente) {
 		Partita p = new Partita();
-
+		Date data = new Date();
+		DateFormat formato = new SimpleDateFormat("dd/mm/yyyy hh:mm:ss");
+		String dataCorrente = formato.format(data);
 		p.setEroe(getEroe(nomeEroe));
 		p.setComp(getComp(nomeComp));
 		p.setPosizioneFinale(rank);
 		p.setNotePersonali(note);
 		p.setRating(punti);
 		p.setNomeUtente(nomeUtente);
+		p.setData(dataCorrente);
 		em.getTransaction().begin();
 		em.persist(p);
 		em.getTransaction().commit();
@@ -207,7 +214,7 @@ public class Service {
 	}
 
 	public List<Partita> stampaListaPartite(String nomeUtente) {
-		List<Partita> lista = em.createQuery("SELECT p FROM Partita p WHERE p.nomeUtente = :nomeUtente", Partita.class)
+		List<Partita> lista = em.createQuery("SELECT p FROM Partita p WHERE p.nomeUtente = :nomeUtente ORDER BY p.data DESC", Partita.class)
 				.setParameter("nomeUtente", nomeUtente).getResultList();
 
 		return lista;
