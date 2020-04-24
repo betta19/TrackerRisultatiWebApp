@@ -13,61 +13,14 @@
 <title></title>
 </head>
 <body>
-	<div class="bgtl">
+	<div class="liste">
 		<%
 			String nomeEroe = (String) request.getAttribute("eroe");
 		%>
-		<div class="container">
+		<div class="container-fluid">
 			<div class="row">
-				<div class="col">
-					<table class="table table-striped">
-
-						<tr>
-							<th><h5>
-									<p class="text-md text-warning">Eroe</p>
-								</h5></th>
-							<th><h5>
-									<p class="text-md text-warning">Composizione</p>
-								</h5></th>
-							<th><h5>
-									<p class="text-md text-warning">Classifica</p>
-								</h5></th>
-							<th><h5>
-									<p class="text-md text-warning">Punti</p>
-								</h5></th>
-							<th><h5>
-									<p class="text-md text-warning">Note</p>
-								</h5></th>
-								<th><h5>
-									<p class="text-md text-warning">Data</p>
-								</h5></th>
-						</tr>
-						<c:forEach items="${listaPartite}" var="singolaPartita">
-
-							<tr>
-								<td><h5>
-										<p class="text-md text-white">${singolaPartita.getEroe().getNome()}</p>
-									</h5></td>
-								<td><h5>
-										<p class="text-md text-white">${singolaPartita.getComp().getNome()}</p>
-									</h5></td>
-								<td><h5>
-										<p class="text-md text-white">${singolaPartita.getPosizioneFinale()}</p>
-									</h5></td>
-								<td><h5>
-										<p class="text-md text-white">${singolaPartita.getRating()}</p>
-									</h5></td>
-								<td><h5>
-										<p class="text-md text-white">${singolaPartita.getNotePersonali()}</p>
-									</h5></td>
-									<td><h5>
-										<p class="text-md text-white">${singolaPartita.getData()}</p>
-									</h5></td>
-							</tr>
-						</c:forEach>
-					</table>
-				</div>
-				<div class="col">
+				
+				<div class="col-4">
 					<br> <br>
 					<br> <br>
 					<table class="table table-striped">
@@ -127,7 +80,7 @@
 
 					</table>
 					<br> <br>
-					<br> <br>
+					<br> <br><br> 
 					<form action="gestioneCliente" method="post">
 						 <select name="eroe">
 
@@ -144,7 +97,7 @@
 							style="width: 250px; height: 40px; margin: auto" name="azione"
 							value="Vedi statistiche eroe">
 					</form>
-					<br> <br>
+					<br> <br><br>
 					<table class="table table-striped">
 
 						<tr>
@@ -198,6 +151,55 @@
 							style="width: 150px; height: 50px; margin: auto"
 							value="Torna Indietro">
 					</form>
+					<br> 
+				</div>
+				<div class="col-8 left">
+					<table class="table table-striped">
+
+						<tr>
+							<th><h5>
+									<p class="text-md text-warning">Eroe</p>
+								</h5></th>
+							<th><h5>
+									<p class="text-md text-warning">Composizione</p>
+								</h5></th>
+							<th><h5>
+									<p class="text-md text-warning">Classifica</p>
+								</h5></th>
+							<th><h5>
+									<p class="text-md text-warning">Punti</p>
+								</h5></th>
+							<th><h5>
+									<p class="text-md text-warning">Note</p>
+								</h5></th>
+								<th><h5>
+									<p class="text-md text-warning">Data</p>
+								</h5></th>
+						</tr>
+						<c:forEach items="${listaPartite}" var="singolaPartita">
+
+							<tr>
+								<td><h5>
+										<p class="text-md text-white">${singolaPartita.getEroe().getNome()}</p>
+									</h5></td>
+								<td><h5>
+										<p class="text-md text-white">${singolaPartita.getComp().getNome()}</p>
+									</h5></td>
+								<td><h5>
+										<p class="text-md text-white">${singolaPartita.getPosizioneFinale()}</p>
+									</h5></td>
+								<td><h5>
+										<p class="text-md text-white">${singolaPartita.getRating()}</p>
+									</h5></td>
+								<td><h5>
+										<p class="text-md text-white">${singolaPartita.getNotePersonali()}</p>
+									</h5></td>
+									<td><h5>
+										<p class="text-md text-white">${singolaPartita.getData()}</p>
+									</h5></td>
+							</tr>
+						</c:forEach>
+					</table>
 				</div>
 			</div>
 		</div>

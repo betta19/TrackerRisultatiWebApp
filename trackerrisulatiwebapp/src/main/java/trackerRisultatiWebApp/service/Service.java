@@ -198,7 +198,7 @@ public class Service {
 	public Partita salvaPartita(String nomeEroe, String nomeComp, int rank, String note, int punti, String nomeUtente) {
 		Partita p = new Partita();
 		Date data = new Date();
-		DateFormat formato = new SimpleDateFormat("dd/mm/yyyy hh:mm:ss");
+		DateFormat formato = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		String dataCorrente = formato.format(data);
 		p.setEroe(getEroe(nomeEroe));
 		p.setComp(getComp(nomeComp));

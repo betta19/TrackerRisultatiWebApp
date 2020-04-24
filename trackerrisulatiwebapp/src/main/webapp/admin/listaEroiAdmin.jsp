@@ -13,7 +13,7 @@
 <title></title>
 </head>
 <body>
-	<div class="bgtl">
+	<div class="liste">
 		<br>
 		<%
 			String messaggio = (String) request.getAttribute("messaggio");
@@ -75,6 +75,6 @@
 							style="width: 150px; height: 50px; margin: auto"
 							value="Torna Indietro">
 					</form>
-				</div>
+				</div></div></div></div>
 </body>
 </html>

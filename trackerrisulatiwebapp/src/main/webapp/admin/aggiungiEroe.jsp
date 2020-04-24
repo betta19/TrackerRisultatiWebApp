@@ -14,7 +14,7 @@
 <title></title>
 </head>
 <body>
-<div class="bgtl">
+<div class="liste">
 	<br>
 	<%
 		String mess = (String) request.getAttribute("mess");
