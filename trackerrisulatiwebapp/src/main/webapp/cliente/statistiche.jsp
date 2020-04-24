@@ -17,12 +17,14 @@
 		<%
 			String nomeEroe = (String) request.getAttribute("eroe");
 		%>
+		<%
+			String nomeComp = (String) request.getAttribute("comp");
+		%>
 		<div class="container-fluid">
 			<div class="row">
-				
+
 				<div class="col-4">
-					<br> <br>
-					<br> <br>
+					<br> <br> <br> <br>
 					<table class="table table-striped">
 
 						<tr>
@@ -71,38 +73,49 @@
 							<td><h5>
 									<p class="text-md text-white"><%=(long) request.getAttribute("ratingIniziale")%></p>
 								</h5></td>
-								<td><h5>
+							<td><h5>
 									<p class="text-md text-white"><%=(long) request.getAttribute("currentRating")%></p>
 								</h5></td>
-							
+
 
 						</tr>
 
 					</table>
-					<br> <br>
-					<br> <br><br> 
+					<br> <br> <br> <br>
+					<br>
 					<form action="gestioneCliente" method="post">
-						 <select name="eroe">
+						<select name="eroe">
 
-									<c:forEach items="${listaEroi}" var="singoloEroe">
-										<c:out value="${singoloEroe.getNome()}" />
-										<option value="${singoloEroe.getNome()}">
-											${singoloEroe.getNome()}</option>
-									</c:forEach>
+							<c:forEach items="${listaEroi}" var="singoloEroe">
+								<c:out value="${singoloEroe.getNome()}" />
+								<option value="${singoloEroe.getNome()}">
+									${singoloEroe.getNome()}</option>
+							</c:forEach>
 
 
-								</select> <br> <br>
-							
-						<input type="submit" class="btn btn-warning"
+						</select> <select name="comp">
+
+							<option value="Tutte">Tutte</option>
+							<c:forEach items="${listaComp}" var="singolaComp">
+								<c:out value="${singolaComp.getNome()}" />
+								<option value="${singolaComp.getNome()}">
+									${singolaComp.getNome()}</option>
+							</c:forEach>
+
+						</select> <br> <br> <input type="submit" class="btn btn-warning"
 							style="width: 250px; height: 40px; margin: auto" name="azione"
 							value="Vedi statistiche eroe">
 					</form>
-					<br> <br><br>
+					<br> <br>
+					<br>
 					<table class="table table-striped">
 
 						<tr>
 							<th><h5>
-									<p class="text-md text-warning">Nome Eroe</p>
+									<p class="text-md text-warning">Eroe</p>
+								</h5></th>
+							<th><h5>
+									<p class="text-md text-warning">Composizione</p>
 								</h5></th>
 							<th><h5>
 									<p class="text-md text-warning">Totale partite giocate</p>
@@ -132,16 +145,32 @@
 							<%
 								}
 							%>
+							<%
+								if (nomeComp == null) {
+							%>
+							<td><h5>
+									<p class="text-md text-white">Scegli una Comp</p>
+								</h5></td>
+							<%
+								} else {
+							%>
+							<td><h5>
+									<p class="text-md text-white"><%=nomeComp%></p>
+								</h5></td>
+							<%
+								}
+							%>
 							<td><h5>
 									<p class="text-md text-white"><%=(long) request.getAttribute("totaleEroe")%></p>
 								</h5></td>
-						<td><h5>
-									<p class="text-md text-white"><%=(int) request.getAttribute("top4Eroe")%>%</p>
+							<td><h5>
+									<p class="text-md text-white"><%=(int) request.getAttribute("top4Eroe")%>%
+									</p>
 								</h5></td>
 							<td><h5>
 									<p class="text-md text-white"><%=(int) request.getAttribute("winEroe")%></p>
 								</h5></td>
-							
+
 						</tr>
 
 					</table>
@@ -151,7 +180,7 @@
 							style="width: 150px; height: 50px; margin: auto"
 							value="Torna Indietro">
 					</form>
-					<br> 
+					<br>
 				</div>
 				<div class="col-8 left">
 					<table class="table table-striped">
@@ -172,7 +201,7 @@
 							<th><h5>
 									<p class="text-md text-warning">Note</p>
 								</h5></th>
-								<th><h5>
+							<th><h5>
 									<p class="text-md text-warning">Data</p>
 								</h5></th>
 						</tr>
@@ -194,7 +223,7 @@
 								<td><h5>
 										<p class="text-md text-white">${singolaPartita.getNotePersonali()}</p>
 									</h5></td>
-									<td><h5>
+								<td><h5>
 										<p class="text-md text-white">${singolaPartita.getData()}</p>
 									</h5></td>
 							</tr>

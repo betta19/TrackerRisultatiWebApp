@@ -229,11 +229,13 @@ public class Service {
 		return totale;
 	}
 
-	public long getTotalePartiteEroe(String nomeEroe) {
-		TypedQuery<Long> query = em.createQuery("SELECT COUNT (p.id) FROM Partita p WHERE p.eroe = :eroe", Long.class);
+	public long getTotalePartiteEroe(String nomeEroe, String nomeComp) {
+		TypedQuery<Long> query = em.createQuery("SELECT COUNT (p.id) FROM Partita p WHERE p.eroe = :eroe AND p.comp = :comp", Long.class);
 		try {
 			Eroe e = getEroe(nomeEroe);
 			query.setParameter("eroe", e);
+			Comp c = getComp(nomeComp);
+			query.setParameter("comp", c);
 
 			long totale = (long) query.getSingleResult();
 			return totale;
@@ -242,7 +244,20 @@ public class Service {
 		}
 
 	}
+	public long getTotalePartiteEroeSolo(String nomeEroe) {
+		TypedQuery<Long> query = em.createQuery("SELECT COUNT (p.id) FROM Partita p WHERE p.eroe = :eroe", Long.class);
+		try {
+			Eroe e = getEroe(nomeEroe);
+			query.setParameter("eroe", e);
+			
 
+			long totale = (long) query.getSingleResult();
+			return totale;
+		} catch (NoResultException e) {
+			return 0;
+		}
+
+	}
 	public int getTop4(String nomeUtente) {
 		List<Integer> listaPosizioni = em
 				.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.nomeUtente = :nomeUtente", Integer.class)
@@ -278,13 +293,13 @@ public class Service {
 
 	}
 
-	public int getTop4Eroe(String nomeEroe) {
+	public int getTop4Eroe(String nomeEroe, String nomeComp) {
 		try {
 			List<Integer> listaPosizioni = em
-					.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe", Integer.class)
-					.setParameter("eroe", getEroe(nomeEroe)).getResultList();
+					.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe AND p.comp = :comp", Integer.class)
+					.setParameter("eroe", getEroe(nomeEroe)).setParameter("comp", getComp(nomeComp)).getResultList();
 
-			long totale = getTotalePartiteEroe(nomeEroe);
+			long totale = getTotalePartiteEroe(nomeEroe,nomeComp);
 			int counter = 0;
 			for (int i = 0; i < listaPosizioni.size(); i++) {
 				if (listaPosizioni.get(i) < 5) {
@@ -301,8 +316,48 @@ public class Service {
 			return 0;
 		}
 	}
+	public int getTop4EroeSolo(String nomeEroe) {
+		try {
+			List<Integer> listaPosizioni = em
+					.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe", Integer.class)
+					.setParameter("eroe", getEroe(nomeEroe)).getResultList();
 
-	public int getWinEroe(String eroe) {
+			long totale = getTotalePartiteEroeSolo(nomeEroe);
+			int counter = 0;
+			for (int i = 0; i < listaPosizioni.size(); i++) {
+				if (listaPosizioni.get(i) < 5) {
+					counter++;
+				}
+			}
+			if (totale == 0) {
+				return 0;
+			}
+
+			int top4 = counter * 100 / (int) totale;
+			return top4;
+		} catch (NoResultException e) {
+			return 0;
+		}
+	}
+	public int getWinEroe(String eroe, String nomeComp) {
+		try {
+			List<Integer> listaPosizioni = em
+					.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe AND p.comp = :comp", Integer.class)
+					.setParameter("eroe", getEroe(eroe)).setParameter("comp", getComp(nomeComp)).getResultList();
+
+			int counter = 0;
+			for (int i = 0; i < listaPosizioni.size(); i++) {
+				if (listaPosizioni.get(i) == 1) {
+					counter++;
+				}
+			}
+
+			return counter;
+		} catch (NoResultException e) {
+			return 0;
+		}
+	}
+	public int getWinEroeSolo(String eroe) {
 		try {
 			List<Integer> listaPosizioni = em
 					.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe", Integer.class)
@@ -320,7 +375,6 @@ public class Service {
 			return 0;
 		}
 	}
-
 	public boolean eliminaEroe(String nome) {
 		try {
 			Query query = em.createQuery("SELECT e FROM Eroe e WHERE e.nome = :nome ", Eroe.class);
