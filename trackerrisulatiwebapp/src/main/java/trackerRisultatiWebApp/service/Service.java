@@ -6,7 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -27,7 +30,7 @@ import trackerRisulatiWebApp.model.Eroe;
 import trackerRisulatiWebApp.model.Partita;
 import trackerRisulatiWebApp.model.Utente;
 
-public class Service {
+public class Service implements Comparator<Partita>{
 	EntityManager em;
 
 	public Service(EntityManagerFactory emf) {
@@ -220,7 +223,21 @@ public class Service {
 //		List<Partita> lista = em.createQuery("SELECT p FROM Partita p WHERE p.nomeUtente = :nomeUtente ORDER BY p.data DESC", Partita.class)
 //				.setParameter("nomeUtente", nomeUtente.getMail()).getResultList();
 		Utente find = em.find(Utente.class, nomeUtente.getId());
-		return find.getListaPartita();
+		
+		 Collections.sort(find.getListaPartita(), new Comparator<Partita>() {
+
+			    @Override
+			    public int compare(Partita o1, Partita o2) {
+			      if (o1.getId() < o2.getId())
+			        return 1;
+			      else if (o1.getId() > o2.getId())
+			        return -1;
+
+			      return 0;
+			    }
+
+			  });
+			  return find.getListaPartita();
 
 	}
 
@@ -459,6 +476,12 @@ public class Service {
 		c.setNome(nome);
 		em.getTransaction().commit();
 
+	}
+
+	@Override
+	public int compare(Partita o1, Partita o2) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
