@@ -1,8 +1,14 @@
 package trackerRisultatiWebApp.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.persistence.EntityManagerFactory;
@@ -17,6 +23,7 @@ import javax.servlet.http.Part;
 import trackerRisulatiWebApp.model.Utente;
 import trackerRisultatiWebApp.service.Mail;
 import trackerRisultatiWebApp.service.Service;
+import trackerRisultatiWebApp.service.Utility;
 
 @WebServlet(name = "registrazione", urlPatterns = { "/registrazione" })
 public class Registrazione extends HttpServlet {
@@ -30,7 +37,7 @@ public class Registrazione extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
 		String mail = req.getParameter("mail");
-		String password = req.getParameter("password");
+		String password = Utility.encrypt(req.getParameter("password"), "Mary has one ca1");
 		long ratingIniziale = Long.parseLong(req.getParameter("rating"));
 		Service s = new Service(emf);
 		

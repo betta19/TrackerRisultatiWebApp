@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import trackerRisulatiWebApp.model.Utente;
 import trackerRisultatiWebApp.service.Service;
+import trackerRisultatiWebApp.service.Utility;
 
 
 
@@ -24,7 +25,7 @@ public class Login extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
 		String mail = req.getParameter("mail");
-		String pass = req.getParameter("password");
+		String pass = Utility.encrypt(req.getParameter("password"), "Mary has one ca1");
 		HttpSession session = req.getSession();
 		Service s = new Service(emf);
 		
@@ -35,8 +36,8 @@ public class Login extends HttpServlet{
 				req.getRequestDispatcher("login.jsp").forward(req, resp);
 
 		}else if (ut.getTipo().equalsIgnoreCase("admin")) {
-	        	session.setAttribute("mail", ut.getMail());
-	        	session.setAttribute("tipo", ut.getTipo());
+	        	session.setAttribute("utente", ut);
+//				session.setAttribute("tipo", ut.getTipo());
 				req.getRequestDispatcher("/admin/opzioniAdmin.jsp").forward(req, resp);
 
 			}  else {
@@ -45,10 +46,12 @@ public class Login extends HttpServlet{
 					s.close();
 					req.getRequestDispatcher("login.jsp").forward(req, resp);
 				} else {
-					session.setAttribute("mail", ut.getMail());
-					session.setAttribute("tipo", ut.getTipo());
+//					session.setAttribute("mail", ut.getMail());
+//					session.setAttribute("tipo", ut.getTipo());
 					session.setAttribute("utente", ut);
-					s.close();
+					session.setAttribute("listaEroi", s.stampaListaEroi());
+					session.setAttribute("listaComp", s.stampaListaComp());
+			//		s.close();
 					req.getRequestDispatcher("/cliente/opzioniCliente.jsp").forward(req, resp);
 				}
 			}

@@ -20,7 +20,8 @@ private Comp comp;
 private int posizioneFinale;
 private String notePersonali;
 private int rating;
-private String nomeUtente;
+@OneToOne
+private Utente nomeUtente;
 private String data;
 public Partita() {
 	
@@ -34,11 +35,11 @@ public void setData(String data) {
 	this.data = data;
 }
 
-public String getNomeUtente() {
+public Utente getNomeUtente() {
 	return nomeUtente;
 }
 
-public void setNomeUtente(String nomeUtente) {
+public void setNomeUtente(Utente nomeUtente) {
 	this.nomeUtente = nomeUtente;
 }
 

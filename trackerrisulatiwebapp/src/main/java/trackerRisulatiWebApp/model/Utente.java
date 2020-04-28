@@ -4,10 +4,12 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 
 @Entity
@@ -20,8 +22,9 @@ private String password;
 private String tipo;
 @Column(columnDefinition = "boolean default false")
 private boolean active;
-@OneToMany
-List<Partita> listaPartita;
+@OneToMany (fetch = FetchType.EAGER)
+private List <Partita> listaPartita;
+
 private long ratingIniziale;
 
 
@@ -75,6 +78,12 @@ public boolean isActive() {
 }
 public void setActive(boolean active) {
 	this.active = active;
+}
+
+@Override
+public String toString() {
+	return "Utente [id=" + id + ", mail=" + mail + ", password=" + password + ", tipo=" + tipo + ", active=" + active
+			+ ", listaPartita=" + listaPartita + ", ratingIniziale=" + ratingIniziale + "]";
 }
 
 }

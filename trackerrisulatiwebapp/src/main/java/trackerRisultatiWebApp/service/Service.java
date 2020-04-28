@@ -106,7 +106,7 @@ public class Service {
 		utente.setPassword(password);
 		utente.setRatingIniziale(ratingIniziale);
 		utente.setTipo("cliente");
-
+		
 		em.getTransaction().begin();
 		em.persist(utente);
 		em.getTransaction().commit();
@@ -195,10 +195,10 @@ public class Service {
 
 	}
 
-	public Partita salvaPartita(String nomeEroe, String nomeComp, int rank, String note, int punti, String nomeUtente) {
+	public Partita salvaPartita(String nomeEroe, String nomeComp, int rank, String note, int punti, Utente nomeUtente) {
 		Partita p = new Partita();
 		Date data = new Date();
-		DateFormat formato = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		DateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		String dataCorrente = formato.format(data);
 		p.setEroe(getEroe(nomeEroe));
 		p.setComp(getComp(nomeComp));
@@ -207,35 +207,42 @@ public class Service {
 		p.setRating(punti);
 		p.setNomeUtente(nomeUtente);
 		p.setData(dataCorrente);
+		Utente find = em.find(Utente.class, nomeUtente.getId());
+		find.getListaPartita().add(p);
 		em.getTransaction().begin();
+		em.persist(find);
 		em.persist(p);
 		em.getTransaction().commit();
 		return p;
 	}
 
-	public List<Partita> stampaListaPartite(String nomeUtente) {
-		List<Partita> lista = em.createQuery("SELECT p FROM Partita p WHERE p.nomeUtente = :nomeUtente ORDER BY p.data DESC", Partita.class)
-				.setParameter("nomeUtente", nomeUtente).getResultList();
-
-		return lista;
+	public List<Partita> stampaListaPartite(Utente nomeUtente) {
+//		List<Partita> lista = em.createQuery("SELECT p FROM Partita p WHERE p.nomeUtente = :nomeUtente ORDER BY p.data DESC", Partita.class)
+//				.setParameter("nomeUtente", nomeUtente.getMail()).getResultList();
+		Utente find = em.find(Utente.class, nomeUtente.getId());
+		return find.getListaPartita();
 
 	}
 
-	public long getTotalePartite(String nomeUtente) {
-		TypedQuery<Long> query = em.createQuery("SELECT COUNT (p.id) FROM Partita p WHERE p.nomeUtente = :nomeUtente",
-				Long.class);
-		query.setParameter("nomeUtente", nomeUtente);
-		long totale = (long) query.getSingleResult();
-		return totale;
+	public long getTotalePartite(Utente nomeUtente) {
+//		TypedQuery<Long> query = em.createQuery("SELECT COUNT (p.id) FROM Partita p WHERE p.nomeUtente = :nomeUtente",
+//				Long.class);
+//		query.setParameter("nomeUtente", nomeUtente.getMail());
+//		long totale = (long) query.getSingleResult();
+		Utente find = em.find(Utente.class, nomeUtente.getId());
+		 int somma = find.getListaPartita().size();
+		return somma;
 	}
 
-	public long getTotalePartiteEroe(String nomeEroe, String nomeComp) {
-		TypedQuery<Long> query = em.createQuery("SELECT COUNT (p.id) FROM Partita p WHERE p.eroe = :eroe AND p.comp = :comp", Long.class);
+	public long getTotalePartiteEroe(String nomeEroe, String nomeComp, Utente ut) {
+		TypedQuery<Long> query = em.createQuery("SELECT COUNT (p.id) FROM Partita p WHERE p.eroe = :eroe AND p.comp = :comp AND p.nomeUtente = :nomeUtente", Long.class);
 		try {
 			Eroe e = getEroe(nomeEroe);
 			query.setParameter("eroe", e);
 			Comp c = getComp(nomeComp);
 			query.setParameter("comp", c);
+			Utente find = em.find(Utente.class, ut.getId());
+			query.setParameter("nomeUtente", find);
 
 			long totale = (long) query.getSingleResult();
 			return totale;
@@ -244,12 +251,12 @@ public class Service {
 		}
 
 	}
-	public long getTotalePartiteEroeSolo(String nomeEroe) {
-		TypedQuery<Long> query = em.createQuery("SELECT COUNT (p.id) FROM Partita p WHERE p.eroe = :eroe", Long.class);
+	public long getTotalePartiteEroeSolo(String nomeEroe, Utente t) {
+		TypedQuery<Long> query = em.createQuery("SELECT COUNT (p.id) FROM Partita p WHERE p.eroe = :eroe AND p.nomeUtente = :nomeUtente", Long.class);
 		try {
 			Eroe e = getEroe(nomeEroe);
 			query.setParameter("eroe", e);
-			
+			query.setParameter("nomeUtente", t);
 
 			long totale = (long) query.getSingleResult();
 			return totale;
@@ -258,14 +265,15 @@ public class Service {
 		}
 
 	}
-	public int getTop4(String nomeUtente) {
-		List<Integer> listaPosizioni = em
-				.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.nomeUtente = :nomeUtente", Integer.class)
-				.setParameter("nomeUtente", nomeUtente).getResultList();
-		long totale = getTotalePartite(nomeUtente);
+	public int getTop4(Utente nomeUtente) {
+//		List<Integer> listaPosizioni = em
+//				.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.nomeUtente = :nomeUtente", Integer.class)
+//				.setParameter("nomeUtente", nomeUtente.getMail()).getResultList();
+		Utente find = em.find(Utente.class, nomeUtente.getId());
+		long totale = getTotalePartite(find);
 		int counter = 0;
-		for (int i = 0; i < listaPosizioni.size(); i++) {
-			if (listaPosizioni.get(i) < 5) {
+		for (int i = 0; i < find.getListaPartita().size(); i++) {
+			if (find.getListaPartita().get(i).getPosizioneFinale() < 5) {
 				counter++;
 			}
 		}
@@ -277,14 +285,14 @@ public class Service {
 
 	}
 
-	public int getWin(String nomeUtente) {
-		List<Integer> listaPosizioni = em
-				.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.nomeUtente = :nomeUtente", Integer.class)
-				.setParameter("nomeUtente", nomeUtente).getResultList();
-
+	public int getWin(Utente nomeUtente) {
+//		List<Integer> listaPosizioni = em
+//				.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.nomeUtente = :nomeUtente", Integer.class)
+//				.setParameter("nomeUtente", nomeUtente.getMail()).getResultList();
+		Utente find = em.find(Utente.class, nomeUtente.getId());
 		int counter = 0;
-		for (int i = 0; i < listaPosizioni.size(); i++) {
-			if (listaPosizioni.get(i) == 1) {
+		for (int i = 0; i < find.getListaPartita().size(); i++) {
+			if (find.getListaPartita().get(i).getPosizioneFinale() == 1) {
 				counter++;
 			}
 		}
@@ -293,13 +301,13 @@ public class Service {
 
 	}
 
-	public int getTop4Eroe(String nomeEroe, String nomeComp) {
+	public int getTop4Eroe(String nomeEroe, String nomeComp, Utente ut) {
 		try {
 			List<Integer> listaPosizioni = em
-					.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe AND p.comp = :comp", Integer.class)
-					.setParameter("eroe", getEroe(nomeEroe)).setParameter("comp", getComp(nomeComp)).getResultList();
+					.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe AND p.comp = :comp AND p.nomeUtente = :nomeUtente", Integer.class)
+					.setParameter("eroe", getEroe(nomeEroe)).setParameter("comp", getComp(nomeComp)).setParameter("nomeUtente", ut).getResultList();
 
-			long totale = getTotalePartiteEroe(nomeEroe,nomeComp);
+			long totale = getTotalePartiteEroe(nomeEroe,nomeComp, ut);
 			int counter = 0;
 			for (int i = 0; i < listaPosizioni.size(); i++) {
 				if (listaPosizioni.get(i) < 5) {
@@ -316,13 +324,13 @@ public class Service {
 			return 0;
 		}
 	}
-	public int getTop4EroeSolo(String nomeEroe) {
+	public int getTop4EroeSolo(String nomeEroe, Utente u) {
 		try {
 			List<Integer> listaPosizioni = em
-					.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe", Integer.class)
-					.setParameter("eroe", getEroe(nomeEroe)).getResultList();
+					.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe AND p.nomeUtente = :nomeUtente", Integer.class)
+					.setParameter("eroe", getEroe(nomeEroe)).setParameter("nomeUtente", u).getResultList();
 
-			long totale = getTotalePartiteEroeSolo(nomeEroe);
+			long totale = getTotalePartiteEroeSolo(nomeEroe, u);
 			int counter = 0;
 			for (int i = 0; i < listaPosizioni.size(); i++) {
 				if (listaPosizioni.get(i) < 5) {
@@ -339,11 +347,11 @@ public class Service {
 			return 0;
 		}
 	}
-	public int getWinEroe(String eroe, String nomeComp) {
+	public int getWinEroe(String eroe, String nomeComp, Utente u) {
 		try {
 			List<Integer> listaPosizioni = em
-					.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe AND p.comp = :comp", Integer.class)
-					.setParameter("eroe", getEroe(eroe)).setParameter("comp", getComp(nomeComp)).getResultList();
+					.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe AND p.comp = :comp AND p.nomeUtente = :nomeUtente", Integer.class)
+					.setParameter("eroe", getEroe(eroe)).setParameter("comp", getComp(nomeComp)).setParameter("nomeUtente", u).getResultList();
 
 			int counter = 0;
 			for (int i = 0; i < listaPosizioni.size(); i++) {
@@ -357,11 +365,11 @@ public class Service {
 			return 0;
 		}
 	}
-	public int getWinEroeSolo(String eroe) {
+	public int getWinEroeSolo(String eroe, Utente u) {
 		try {
 			List<Integer> listaPosizioni = em
-					.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe", Integer.class)
-					.setParameter("eroe", getEroe(eroe)).getResultList();
+					.createQuery("SELECT p.posizioneFinale FROM Partita p WHERE p.eroe = :eroe AND p.nomeUtente = : nomeUtente", Integer.class)
+					.setParameter("eroe", getEroe(eroe)).setParameter("nomeUtente", u).getResultList();
 
 			int counter = 0;
 			for (int i = 0; i < listaPosizioni.size(); i++) {
@@ -406,12 +414,15 @@ public class Service {
 	}
 
 	public long calcoloCurrentRating(Utente ut) {
-		List<Partita> listaPartite = em
-				.createQuery("SELECT p FROM Partita p WHERE p.nomeUtente = :nomeUtente", Partita.class)
-				.setParameter("nomeUtente", ut.getMail()).getResultList();
-		long ratingTotale = ut.getRatingIniziale();
-		for (int i = 0; i < listaPartite.size(); i++) {
-			ratingTotale  += listaPartite.get(i).getRating();
+		
+		
+//		List<Partita> listaPartite = em
+//				.createQuery("SELECT p FROM Partita p WHERE p.nomeUtente = :nomeUtente", Partita.class)
+//				.setParameter("nomeUtente", ut).getResultList();
+		Utente find = em.find(Utente.class, ut.getId());
+		long ratingTotale = find.getRatingIniziale();
+		for (int i = 0; i < find.getListaPartita().size(); i++) {
+			ratingTotale  += find.getListaPartita().get(i).getRating();
 		}
 		return ratingTotale;
 

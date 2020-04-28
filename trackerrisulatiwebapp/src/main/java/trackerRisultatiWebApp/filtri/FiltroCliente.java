@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import trackerRisulatiWebApp.model.Utente;
+
 @WebFilter(filterName = "cliente", urlPatterns = "/cliente/*")
 public class FiltroCliente implements Filter {
 
@@ -30,9 +32,9 @@ public class FiltroCliente implements Filter {
 		
 		try {
 		HttpSession session = (HttpSession) req.getSession();
-		
+		Utente utente = (Utente) session.getAttribute("utente");
 
-		boolean loggedIn = session != null && session.getAttribute("mail") != null && session.getAttribute("tipo").equals("cliente");
+		boolean loggedIn = session != null && utente.getMail() != null && utente.getTipo().equals("cliente");
 		boolean loginRequest = req.getRequestURI().equals(loginURI);
 
 		if (loggedIn || loginRequest) {

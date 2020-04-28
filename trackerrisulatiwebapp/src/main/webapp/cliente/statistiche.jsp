@@ -71,7 +71,7 @@
 						<tr>
 
 							<td><h5>
-									<p class="text-md text-white"><%=(long) request.getAttribute("ratingIniziale")%></p>
+									<p class="text-md text-white"><c:out value="${sessionScope.utente.getRatingIniziale()}" /></p>
 								</h5></td>
 							<td><h5>
 									<p class="text-md text-white"><%=(long) request.getAttribute("currentRating")%></p>
@@ -86,7 +86,7 @@
 					<form action="gestioneCliente" method="post">
 						<select name="eroe">
 
-							<c:forEach items="${listaEroi}" var="singoloEroe">
+							<c:forEach items="${sessionScope.listaEroi}" var="singoloEroe">
 								<c:out value="${singoloEroe.getNome()}" />
 								<option value="${singoloEroe.getNome()}">
 									${singoloEroe.getNome()}</option>
@@ -96,7 +96,7 @@
 						</select> <select name="comp">
 
 							<option value="Tutte">Tutte</option>
-							<c:forEach items="${listaComp}" var="singolaComp">
+							<c:forEach items="${sessionScope.listaComp}" var="singolaComp">
 								<c:out value="${singolaComp.getNome()}" />
 								<option value="${singolaComp.getNome()}">
 									${singolaComp.getNome()}</option>

@@ -34,7 +34,7 @@
 					<h5><p class="text-md text-warning">Eroe</p></h5>
 						 <select name="eroe">
 
-									<c:forEach items="${listaEroi}" var="singoloEroe">
+									<c:forEach items="${sessionScope.listaEroi}" var="singoloEroe">
 										<c:out value="${singoloEroe.getNome()}" />
 										<option value="${singoloEroe.getNome()}">
 											${singoloEroe.getNome()}</option>
@@ -45,7 +45,7 @@
 						<h5><p class="text-md text-warning">Composizione</p></h5>	
 						 <select name="comp">
 
-									<c:forEach items="${listaComp}" var="singolaComp">
+									<c:forEach items="${sessionScope.listaComp}" var="singolaComp">
 										<c:out value="${singolaComp.getNome()}" />
 										<option value="${singolaComp.getNome()}">
 											${singolaComp.getNome()}</option>
